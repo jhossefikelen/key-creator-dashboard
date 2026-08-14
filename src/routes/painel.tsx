@@ -26,16 +26,16 @@ import { formatDate, statusOf, type LicenseKey } from "@/lib/license-keys";
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "KEYGEN // Painel de Licenças" },
+      { title: "SHARK BLACK // Painel de Licenças" },
       {
         name: "description",
         content:
-          "Gere, revogue e acompanhe chaves de licença com validade e limite de ativações.",
+          "Shark Black - Gere, revogue e acompanhe chaves de licença com validade e limite de ativações.",
       },
-      { property: "og:title", content: "KEYGEN // Painel de Licenças" },
+      { property: "og:title", content: "SHARK BLACK // Painel de Licenças" },
       {
         property: "og:description",
-        content: "Gere, revogue e acompanhe chaves de licença em um painel único.",
+        content: "Shark Black - Gere, revogue e acompanhe chaves de licença em um painel único.",
       },
       { name: "robots", content: "noindex" },
     ],
@@ -127,7 +127,7 @@ function PainelPage() {
       <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
         <div>
           <h1 className="text-glow flex items-center gap-2 text-2xl font-bold text-primary">
-            <KeyRound className="size-6" /> PAINEL DE LICENÇAS
+            <KeyRound className="size-6" /> SHARK BLACK
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Emissão e controle de chaves — armazenamento local até a integração do banco.
