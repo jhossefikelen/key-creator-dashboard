@@ -13,7 +13,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-stone-200 font-inter antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-black text-cyan-400 font-inter antialiased overflow-x-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
@@ -41,7 +41,7 @@ export default function App() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gray-700 to-black border border-white/10 flex items-center justify-center">
                 <Zap size={18} className="text-white" />
               </div>
-              <span className="text-lg font-bold bg-gradient-to-r from-stone-200 to-stone-500 bg-clip-text text-transparent">
+              <span className="text-lg font-bold bg-gradient-to-r from-cyan-300 to-cyan-600 bg-clip-text text-transparent">
                 Nebula
               </span>
             </div>
@@ -54,7 +54,7 @@ export default function App() {
               <input
                 type="text"
                 placeholder="Buscar..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-stone-500/50 focus:border-stone-500/50 transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all"
               />
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function App() {
                   : 'text-slate-400 hover:bg-white/5 hover:text-white'
               }`}
             >
-              <item.icon size={18} className={item.active ? 'text-stone-300' : ''} />
+              <item.icon size={18} className={item.active ? 'text-cyan-400' : ''} />
               {sidebarOpen && (
                 <>
                   <span className="text-sm font-medium flex-1">{item.label}</span>
@@ -109,11 +109,11 @@ export default function App() {
         {sidebarOpen && (
           <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-gradient-to-br from-gray-800/40 to-black border border-white/10">
             <div className="flex items-center gap-2 mb-2">
-              <Star size={14} className="text-stone-400 fill-stone-400" />
+              <Star size={14} className="text-cyan-400 fill-cyan-400" />
               <span className="text-xs font-semibold">Upgrade Pro</span>
             </div>
             <p className="text-xs text-slate-400 mb-3">Desbloqueie recursos avançados</p>
-            <button className="w-full text-xs font-medium py-1.5 rounded-lg bg-gradient-to-r from-gray-700 to-black border border-white/10 hover:opacity-90 transition-opacity">
+            <button className="w-full text-xs font-medium py-1.5 rounded-lg bg-gradient-to-r from-cyan-700 to-black border border-cyan-500/30 hover:opacity-90 transition-opacity">
               Fazer Upgrade
             </button>
           </div>
@@ -126,7 +126,7 @@ export default function App() {
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-300 to-cyan-500 bg-clip-text text-transparent">
                 Dashboard
               </h1>
               <p className="text-sm text-slate-500 mt-1">Bem-vindo de volta! Aqui está seu resumo.</p>
@@ -144,10 +144,10 @@ export default function App() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: 'Receita Total', value: 'R$ 45.231', change: '+12.5%', up: true, icon: DollarSign, gradient: 'from-gray-800/30 to-black', iconColor: 'text-stone-300' },
-              { title: 'Usuários Ativos', value: '2.847', change: '+8.2%', up: true, icon: Users, gradient: 'from-gray-800/30 to-black', iconColor: 'text-stone-300' },
+              { title: 'Receita Total', value: 'R$ 45.231', change: '+12.5%', up: true, icon: DollarSign, gradient: 'from-gray-800/30 to-black', iconColor: 'text-cyan-400' },
+              { title: 'Usuários Ativos', value: '2.847', change: '+8.2%', up: true, icon: Users, gradient: 'from-gray-800/30 to-black', iconColor: 'text-cyan-400' },
               { title: 'Conversões', value: '12.5%', change: '-2.4%', up: false, icon: Activity, gradient: 'from-red-950/30 to-black', iconColor: 'text-red-500' },
-              { title: 'Crescimento', value: '+24.5%', change: '+5.1%', up: true, icon: TrendingUp, gradient: 'from-gray-900/30 to-black', iconColor: 'text-stone-400' },
+              { title: 'Crescimento', value: '+24.5%', change: '+5.1%', up: true, icon: TrendingUp, gradient: 'from-gray-900/30 to-black', iconColor: 'text-cyan-400' },
             ].map((stat, i) => (
               <div
                 key={i}
@@ -198,7 +198,7 @@ export default function App() {
                   <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
                     <div className="w-full relative h-full flex items-end">
                       <div
-                        className="w-full rounded-t-lg bg-gradient-to-t from-gray-800 to-stone-500 group-hover:from-gray-700 group-hover:to-stone-400 transition-all cursor-pointer"
+                        className="w-full rounded-t-lg bg-gradient-to-t from-gray-800 to-cyan-400 group-hover:from-gray-700 group-hover:to-cyan-300 transition-all cursor-pointer"
                         style={{ height: `${h}%` }}
                       ></div>
                     </div>
@@ -238,7 +238,7 @@ export default function App() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold">Projetos em Destaque</h2>
-              <a href="#" className="text-sm text-stone-400 hover:text-stone-300 transition-colors">
+              <a href="#" className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors">
                 Ver todos →
               </a>
             </div>
