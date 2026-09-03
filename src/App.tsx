@@ -13,7 +13,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-slate-100 font-inter antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-black text-stone-200 font-inter antialiased overflow-x-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
@@ -22,7 +22,7 @@ export default function App() {
       </div>
 
       {/* Top Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'}`}>
         <div className="px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <button
@@ -38,10 +38,10 @@ export default function App() {
               <Menu size={20} />
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gray-700 to-black border border-white/10 flex items-center justify-center">
                 <Zap size={18} className="text-white" />
               </div>
-              <span className="text-lg font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
+              <span className="text-lg font-bold bg-gradient-to-r from-stone-200 to-stone-500 bg-clip-text text-transparent">
                 Nebula
               </span>
             </div>
@@ -54,7 +54,7 @@ export default function App() {
               <input
                 type="text"
                 placeholder="Buscar..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-stone-500/50 focus:border-stone-500/50 transition-all"
               />
             </div>
           </div>
@@ -62,9 +62,9 @@ export default function App() {
           <div className="flex items-center gap-2 sm:gap-3">
             <button className="relative p-2 hover:bg-white/5 rounded-lg transition-colors group">
               <Bell size={18} className="text-slate-400 group-hover:text-white transition-colors" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-800 rounded-full animate-pulse"></span>
             </button>
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gray-800 to-black border border-white/10 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
               <User size={16} />
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function App() {
       </nav>
 
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-16 bottom-0 z-40 bg-[#0d0d14]/80 backdrop-blur-xl border-r border-white/5 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+      <aside className={`fixed left-0 top-16 bottom-0 z-40 bg-[#050505]/90 backdrop-blur-xl border-r border-white/10 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <nav className="p-4 space-y-1">
           {[
             { icon: Home, label: 'Dashboard', badge: null, active: true },
@@ -87,16 +87,16 @@ export default function App() {
               href="#"
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all group ${
                 item.active
-                  ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30 shadow-lg shadow-purple-500/10'
+                  ? 'bg-gradient-to-r from-gray-700/30 to-black text-white border border-white/20 shadow-lg shadow-black/40'
                   : 'text-slate-400 hover:bg-white/5 hover:text-white'
               }`}
             >
-              <item.icon size={18} className={item.active ? 'text-purple-400' : ''} />
+              <item.icon size={18} className={item.active ? 'text-stone-300' : ''} />
               {sidebarOpen && (
                 <>
                   <span className="text-sm font-medium flex-1">{item.label}</span>
                   {item.badge && (
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gradient-to-r from-gray-700 to-black text-white">
                       {item.badge}
                     </span>
                   )}
@@ -107,13 +107,13 @@ export default function App() {
         </nav>
 
         {sidebarOpen && (
-          <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-white/5">
+          <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-gradient-to-br from-gray-800/40 to-black border border-white/10">
             <div className="flex items-center gap-2 mb-2">
-              <Star size={14} className="text-yellow-400 fill-yellow-400" />
+              <Star size={14} className="text-stone-400 fill-stone-400" />
               <span className="text-xs font-semibold">Upgrade Pro</span>
             </div>
             <p className="text-xs text-slate-400 mb-3">Desbloqueie recursos avançados</p>
-            <button className="w-full text-xs font-medium py-1.5 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90 transition-opacity">
+            <button className="w-full text-xs font-medium py-1.5 rounded-lg bg-gradient-to-r from-gray-700 to-black border border-white/10 hover:opacity-90 transition-opacity">
               Fazer Upgrade
             </button>
           </div>
@@ -144,14 +144,14 @@ export default function App() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: 'Receita Total', value: 'R$ 45.231', change: '+12.5%', up: true, icon: DollarSign, gradient: 'from-emerald-500/20 to-teal-500/20', iconColor: 'text-emerald-400' },
-              { title: 'Usuários Ativos', value: '2.847', change: '+8.2%', up: true, icon: Users, gradient: 'from-blue-500/20 to-cyan-500/20', iconColor: 'text-blue-400' },
-              { title: 'Conversões', value: '12.5%', change: '-2.4%', up: false, icon: Activity, gradient: 'from-purple-500/20 to-pink-500/20', iconColor: 'text-purple-400' },
-              { title: 'Crescimento', value: '+24.5%', change: '+5.1%', up: true, icon: TrendingUp, gradient: 'from-orange-500/20 to-red-500/20', iconColor: 'text-orange-400' },
+              { title: 'Receita Total', value: 'R$ 45.231', change: '+12.5%', up: true, icon: DollarSign, gradient: 'from-gray-800/30 to-black', iconColor: 'text-stone-300' },
+              { title: 'Usuários Ativos', value: '2.847', change: '+8.2%', up: true, icon: Users, gradient: 'from-gray-800/30 to-black', iconColor: 'text-stone-300' },
+              { title: 'Conversões', value: '12.5%', change: '-2.4%', up: false, icon: Activity, gradient: 'from-red-950/30 to-black', iconColor: 'text-red-500' },
+              { title: 'Crescimento', value: '+24.5%', change: '+5.1%', up: true, icon: TrendingUp, gradient: 'from-gray-900/30 to-black', iconColor: 'text-stone-400' },
             ].map((stat, i) => (
               <div
                 key={i}
-                className="group relative p-5 rounded-2xl bg-[#0d0d14]/60 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/5"
+                className="group relative p-5 rounded-2xl bg-[#0a0a0a]/70 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40"
               >
                 <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-100 transition-opacity`}></div>
                 <div className="relative">
@@ -174,7 +174,7 @@ export default function App() {
           {/* Charts & Activity */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             {/* Main Chart */}
-            <div className="lg:col-span-2 p-5 rounded-2xl bg-[#0d0d14]/60 backdrop-blur-xl border border-white/5">
+            <div className="lg:col-span-2 p-5 rounded-2xl bg-[#0a0a0a]/70 backdrop-blur-xl border border-white/10">
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="font-semibold">Performance Semanal</h3>
@@ -184,7 +184,7 @@ export default function App() {
                   {['7d', '30d', '90d'].map((period, i) => (
                     <button
                       key={period}
-                      className={`px-3 py-1 text-xs rounded-md transition-all ${i === 0 ? 'bg-purple-500 text-white' : 'text-slate-400 hover:text-white'}`}
+                      className={`px-3 py-1 text-xs rounded-md transition-all ${i === 0 ? 'bg-gray-800 border border-white/20 text-white' : 'text-slate-400 hover:text-white'}`}
                     >
                       {period}
                     </button>
@@ -198,7 +198,7 @@ export default function App() {
                   <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
                     <div className="w-full relative h-full flex items-end">
                       <div
-                        className="w-full rounded-t-lg bg-gradient-to-t from-purple-500/50 to-purple-400 group-hover:from-purple-500 group-hover:to-purple-300 transition-all cursor-pointer"
+                        className="w-full rounded-t-lg bg-gradient-to-t from-gray-800 to-stone-500 group-hover:from-gray-700 group-hover:to-stone-400 transition-all cursor-pointer"
                         style={{ height: `${h}%` }}
                       ></div>
                     </div>
@@ -209,14 +209,14 @@ export default function App() {
             </div>
 
             {/* Activity Feed */}
-            <div className="p-5 rounded-2xl bg-[#0d0d14]/60 backdrop-blur-xl border border-white/5">
+            <div className="p-5 rounded-2xl bg-[#0a0a0a]/70 backdrop-blur-xl border border-white/10">
               <h3 className="font-semibold mb-4">Atividade Recente</h3>
               <div className="space-y-3">
                 {[
-                  { name: 'Ana Silva', action: 'criou um novo projeto', time: '2min', color: 'from-pink-500 to-purple-500' },
-                  { name: 'Carlos Lima', action: 'completou uma tarefa', time: '15min', color: 'from-blue-500 to-cyan-500' },
-                  { name: 'Beatriz Costa', action: 'comentou no post', time: '1h', color: 'from-emerald-500 to-teal-500' },
-                  { name: 'Diego Santos', action: 'atualizou o design', time: '3h', color: 'from-orange-500 to-red-500' },
+                  { name: 'Ana Silva', action: 'criou um novo projeto', time: '2min', color: 'from-gray-700 to-black' },
+                  { name: 'Carlos Lima', action: 'completou uma tarefa', time: '15min', color: 'from-stone-700 to-black' },
+                  { name: 'Beatriz Costa', action: 'comentou no post', time: '1h', color: 'from-red-950 to-black' },
+                  { name: 'Diego Santos', action: 'atualizou o design', time: '3h', color: 'from-gray-800 to-black' },
                 ].map((activity, i) => (
                   <div key={i} className="flex items-start gap-3 group cursor-pointer">
                     <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${activity.color} flex-shrink-0`}></div>
@@ -238,7 +238,7 @@ export default function App() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold">Projetos em Destaque</h2>
-              <a href="#" className="text-sm text-purple-400 hover:text-purple-300 transition-colors">
+              <a href="#" className="text-sm text-stone-400 hover:text-stone-300 transition-colors">
                 Ver todos →
               </a>
             </div>
