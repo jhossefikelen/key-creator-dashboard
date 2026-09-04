@@ -55,8 +55,8 @@ function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-muted/40 px-4 py-10">
       <div className="animate-fade-in-up w-full max-w-md rounded-2xl border border-border/50 bg-card p-8 shadow-xl sm:p-10">
         <div className="stagger-1 flex flex-col items-center text-center">
-          <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            <ShieldCheck className="size-6" />
+          <div className="flex size-16 items-center justify-center overflow-hidden rounded-xl">
+            <img src="/lunax-assets/d628aa5e2e25-gemini_generated_image_mw9arhmw9arhmw9a.png" alt="Logo" className="size-16 object-contain" />
           </div>
           <span className="mt-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
             BlackShark
