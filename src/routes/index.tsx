@@ -8,16 +8,16 @@ import { useAdminGate } from "@/hooks/useAdminGate";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PAINEL BLACK // Acesso Admin" },
+      { title: "BlackShark // Acesso Admin" },
       {
         name: "description",
         content:
-          "Área restrita do painel PAINEL BLACK. Autentique-se para gerar e gerenciar keys.",
+          "Área restrita do painel BlackShark. Autentique-se para gerar e gerenciar keys.",
       },
-      { property: "og:title", content: "PAINEL BLACK // Acesso Admin" },
+      { property: "og:title", content: "BlackShark // Acesso Admin" },
       {
         property: "og:description",
-        content: "Área restrita do painel de geração de chaves de licença Painel Black.",
+        content: "Área restrita do painel de geração de chaves de licença BlackShark.",
       },
       { name: "robots", content: "noindex" },
     ],
@@ -50,7 +50,7 @@ function LoginPage() {
       <div className="scanlines w-full max-w-md border border-[#3a0a0a] bg-[#0d0808] p-8 shadow-[0_0_30px_rgba(80,0,0,0.5)]">
         <div className="flex items-center gap-2 text-[#8b1a1a]">
           <Terminal className="size-5" />
-          <span className="text-sm tracking-[0.3em] uppercase font-serif">PAINEL BLACK v1.0</span>
+          <span className="text-sm tracking-[0.3em] uppercase font-serif">BlackShark v1.0</span>
         </div>
 
         <h1 className="text-glow mt-6 text-3xl font-bold text-[#8b1a1a]">
