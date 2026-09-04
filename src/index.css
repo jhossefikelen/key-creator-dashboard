@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Creepster&family=Cinzel:wght@400;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,7 +11,15 @@
   body {
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
+    background: #0a0a0a;
+    color: #d6d0c4;
   }
+}
+
+.text-glow {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 8px rgba(120, 0, 0, 0.6);
 }
 
 /* Custom scrollbar dark */
@@ -20,12 +28,12 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a0f;
+  background: #050505;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1f1f2e;
+  background: #2b1010;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2f2f3e;
+  background: #4a1616;
 }

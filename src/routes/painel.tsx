@@ -123,10 +123,10 @@ function PainelPage() {
   if (!ready || !authed) return null;
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-6xl px-4 py-10">
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
+    <main className="mx-auto min-h-screen w-full max-w-6xl bg-black px-4 py-10">
+      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-[#3a0a0a] pb-6">
         <div>
-          <h1 className="text-glow flex items-center gap-2 text-2xl font-bold text-primary">
+          <h1 className="text-glow flex items-center gap-2 text-2xl font-bold text-[#8b1a1a]">
             <KeyRound className="size-6" /> SharkBlack
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">

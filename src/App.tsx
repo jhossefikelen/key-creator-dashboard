@@ -13,12 +13,12 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-cyan-400 font-inter antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-black text-[#8b1a1a] font-inter antialiased overflow-x-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute -bottom-40 right-1/3 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-950/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/2 -left-40 w-96 h-96 bg-neutral-900/40 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute -bottom-40 right-1/3 w-96 h-96 bg-red-900/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
       {/* Top Navigation */}
@@ -41,7 +41,7 @@ export default function App() {
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gray-700 to-black border border-white/10 flex items-center justify-center">
                 <Zap size={18} className="text-white" />
               </div>
-              <span className="text-lg font-bold bg-gradient-to-r from-cyan-300 to-cyan-600 bg-clip-text text-transparent">
+              <span className="text-lg font-bold bg-gradient-to-r from-[#8b1a1a] to-[#2a0a0a] bg-clip-text text-transparent font-serif">
                 Nebula
               </span>
             </div>

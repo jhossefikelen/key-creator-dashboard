@@ -46,14 +46,14 @@ function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
-      <div className="scanlines w-full max-w-md border border-border bg-card p-8 shadow-[var(--glow-primary)]">
-        <div className="flex items-center gap-2 text-primary">
+    <main className="flex min-h-screen items-center justify-center bg-black px-4">
+      <div className="scanlines w-full max-w-md border border-[#3a0a0a] bg-[#0d0808] p-8 shadow-[0_0_30px_rgba(80,0,0,0.5)]">
+        <div className="flex items-center gap-2 text-[#8b1a1a]">
           <Terminal className="size-5" />
-          <span className="text-sm tracking-[0.3em] uppercase">PAINEL BLACK v1.0</span>
+          <span className="text-sm tracking-[0.3em] uppercase font-serif">PAINEL BLACK v1.0</span>
         </div>
 
-        <h1 className="text-glow mt-6 text-3xl font-bold text-primary">
+        <h1 className="text-glow mt-6 text-3xl font-bold text-[#8b1a1a]">
           Acesso restrito
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
