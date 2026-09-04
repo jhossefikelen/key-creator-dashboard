@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Terminal, LockKeyhole } from "lucide-react";
+import { ShieldCheck, LockKeyhole, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAdminGate } from "@/hooks/useAdminGate";
@@ -30,6 +30,8 @@ function LoginPage() {
   const { authed, ready, login } = useAdminGate();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (ready && authed) navigate({ to: "/painel" });
@@ -37,60 +39,92 @@ function LoginPage() {
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (login(password)) {
-      setError("");
-      navigate({ to: "/painel" });
-    } else {
-      setError("ACESSO NEGADO :: credencial inválida");
-    }
+    setLoading(true);
+    setError("");
+    window.setTimeout(() => {
+      if (login(password)) {
+        navigate({ to: "/painel" });
+      } else {
+        setError("Credencial inválida. Verifique a senha e tente novamente.");
+        setLoading(false);
+      }
+    }, 350);
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black px-4">
-      <div className="scanlines w-full max-w-md border border-[#3a0a0a] bg-[#0d0808] p-8 shadow-[0_0_30px_rgba(80,0,0,0.5)]">
-        <div className="flex items-center gap-2 text-[#8b1a1a]">
-          <Terminal className="size-5" />
-          <span className="text-sm tracking-[0.3em] uppercase font-serif">BlackShark v1.0</span>
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-muted/40 px-4 py-10">
+      <div className="animate-fade-in-up w-full max-w-md rounded-2xl border border-border/50 bg-card p-8 shadow-xl sm:p-10">
+        <div className="stagger-1 flex flex-col items-center text-center">
+          <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <ShieldCheck className="size-6" />
+          </div>
+          <span className="mt-3 text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+            BlackShark
+          </span>
         </div>
 
-        <h1 className="text-glow mt-6 text-3xl font-bold text-[#8b1a1a]">
-          Acesso restrito
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Autenticação de administrador necessária para emitir chaves de licença.
-        </p>
+        <div className="stagger-2 mt-6 text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Acesso restrito
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Autentique-se com sua senha de administrador para acessar o painel de licenças.
+          </p>
+        </div>
 
-        <form onSubmit={onSubmit} className="mt-8 space-y-4">
-          <label className="block text-xs uppercase tracking-widest text-muted-foreground">
-            Senha
-          </label>
-          <div className="relative">
-            <LockKeyhole className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="rounded-none border-border bg-background pl-9 font-mono tracking-widest"
-            />
+        <form onSubmit={onSubmit} className="mt-8 space-y-5" noValidate>
+          <div className="stagger-3 space-y-2">
+            <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              Senha
+            </label>
+            <div className="relative">
+              <LockKeyhole className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground transition-colors peer-focus:text-primary" />
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                value={password}
+                disabled={loading}
+                aria-invalid={!!error}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="peer h-11 rounded-xl border-border/70 bg-background pl-9 pr-10 transition-all duration-200 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+              </button>
+            </div>
           </div>
 
           {error ? (
-            <p className="text-sm text-destructive">{error}</p>
+            <p role="alert" aria-live="polite" className="animate-shake text-sm font-medium text-destructive">
+              {error}
+            </p>
           ) : null}
 
           <Button
             type="submit"
-            className="glow w-full rounded-none tracking-[0.2em] uppercase"
+            disabled={loading}
+            className="stagger-4 h-11 w-full rounded-xl text-sm font-semibold tracking-wide shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 disabled:opacity-70"
           >
-            Autenticar
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <Loader2 className="size-4 animate-spin" />
+                Autenticando...
+              </span>
+            ) : (
+              "Entrar"
+            )}
           </Button>
         </form>
 
-        <p className="mt-6 border-t border-border pt-4 text-xs text-muted-foreground">
-          Acesso provisório: <span className="text-primary">admin1234</span> —
-          será substituído por login real quando o banco de dados for integrado.
+        <p className="stagger-5 mt-6 border-t border-border/50 pt-4 text-center text-xs text-muted-foreground">
+          Acesso provisório: <span className="font-medium text-primary">admin1234</span>
         </p>
       </div>
     </main>
