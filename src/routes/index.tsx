@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { LockKeyhole, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { NeoAvatar } from "@/components/NeoAvatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAdminGate } from "@/hooks/useAdminGate";
@@ -117,7 +118,7 @@ function LoginPage() {
       <div className="relative z-10 animate-fade-in-up w-full max-w-md rounded-2xl border border-[#00ff41]/40 bg-black/80 p-8 shadow-[0_0_25px_rgba(0,255,65,0.25)] backdrop-blur-sm sm:p-10">
         <div className="stagger-1 flex flex-col items-center text-center">
           <div className="flex size-16 items-center justify-center overflow-hidden rounded-xl border border-[#00ff41]/50 shadow-[0_0_15px_rgba(0,255,65,0.4)]">
-            <img src="/lunax-assets/d628aa5e2e25-gemini_generated_image_mw9arhmw9arhmw9a.png" alt="Logo" className="size-16 object-contain" />
+            <NeoAvatar className="size-16" />
           </div>
           <span className="matrix-glow mt-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#00ff41]">
             BlackShark
@@ -139,7 +140,6 @@ function LoginPage() {
               Senha
             </label>
             <div className="relative">
-              <LockKeyhole className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#00ff41]/70 transition-colors peer-focus:text-[#00ff41]" />
               <Input
                 id="password"
                 type={showPassword ? "text" : "password"}
