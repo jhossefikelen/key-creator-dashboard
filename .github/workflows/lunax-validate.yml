@@ -25,7 +25,7 @@ jobs:
           node-version: "22"
       - name: Install dependencies
         run: bun install --frozen-lockfile
-      - name: bun run lint
-        run: bun run lint
       - name: bun run build
         run: bun run build
+      - name: bun run lint
+        run: bun run lint
