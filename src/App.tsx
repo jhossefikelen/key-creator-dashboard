@@ -108,20 +108,20 @@ export default function App() {
             { icon: Home, label: "Dashboard", badge: null, active: true },
             { icon: BarChart3, label: "Analytics", badge: "New" },
             { icon: Users, label: "Usuários", badge: null },
-            { icon: FileText, label: 'Relatórios', badge: null },
-            { icon: TrendingUp, label: 'Performance', badge: null },
-            { icon: Settings, label: 'Configurações', badge: null },
+            { icon: FileText, label: "Relatórios", badge: null },
+            { icon: TrendingUp, label: "Performance", badge: null },
+            { icon: Settings, label: "Configurações", badge: null },
           ].map((item, i) => (
             <a
               key={i}
               href="#"
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all group ${
                 item.active
-                  ? 'bg-gradient-to-r from-gray-700/30 to-black text-white border border-white/20 shadow-lg shadow-black/40'
-                  : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                  ? "bg-gradient-to-r from-gray-700/30 to-black text-white border border-white/20 shadow-lg shadow-black/40"
+                  : "text-slate-400 hover:bg-white/5 hover:text-white"
               }`}
             >
-              <item.icon size={18} className={item.active ? 'text-cyan-400' : ''} />
+              <item.icon size={18} className={item.active ? "text-cyan-400" : ""} />
               {sidebarOpen && (
                 <>
                   <span className="text-sm font-medium flex-1">{item.label}</span>
@@ -151,7 +151,9 @@ export default function App() {
       </aside>
 
       {/* Main Content */}
-      <main className={`pt-20 transition-all duration-300 ${sidebarOpen ? 'lg:pl-64' : 'lg:pl-20'}`}>
+      <main
+        className={`pt-20 transition-all duration-300 ${sidebarOpen ? "lg:pl-64" : "lg:pl-20"}`}
+      >
         <div className="p-4 sm:p-6 lg:p-8 space-y-6">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -159,7 +161,9 @@ export default function App() {
               <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-cyan-300 to-cyan-500 bg-clip-text text-transparent">
                 Dashboard
               </h1>
-              <p className="text-sm text-slate-500 mt-1">Bem-vindo de volta! Aqui está seu resumo.</p>
+              <p className="text-sm text-slate-500 mt-1">
+                Bem-vindo de volta! Aqui está seu resumo.
+              </p>
             </div>
             <div className="flex gap-2">
               <button className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-medium transition-all">
@@ -174,10 +178,42 @@ export default function App() {
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: 'Receita Total', value: 'R$ 45.231', change: '+12.5%', up: true, icon: DollarSign, gradient: 'from-gray-800/30 to-black', iconColor: 'text-cyan-400' },
-              { title: 'Usuários Ativos', value: '2.847', change: '+8.2%', up: true, icon: Users, gradient: 'from-gray-800/30 to-black', iconColor: 'text-cyan-400' },
-              { title: 'Conversões', value: '12.5%', change: '-2.4%', up: false, icon: Activity, gradient: 'from-red-950/30 to-black', iconColor: 'text-red-500' },
-              { title: 'Crescimento', value: '+24.5%', change: '+5.1%', up: true, icon: TrendingUp, gradient: 'from-gray-900/30 to-black', iconColor: 'text-cyan-400' },
+              {
+                title: "Receita Total",
+                value: "R$ 45.231",
+                change: "+12.5%",
+                up: true,
+                icon: DollarSign,
+                gradient: "from-gray-800/30 to-black",
+                iconColor: "text-cyan-400",
+              },
+              {
+                title: "Usuários Ativos",
+                value: "2.847",
+                change: "+8.2%",
+                up: true,
+                icon: Users,
+                gradient: "from-gray-800/30 to-black",
+                iconColor: "text-cyan-400",
+              },
+              {
+                title: "Conversões",
+                value: "12.5%",
+                change: "-2.4%",
+                up: false,
+                icon: Activity,
+                gradient: "from-red-950/30 to-black",
+                iconColor: "text-red-500",
+              },
+              {
+                title: "Crescimento",
+                value: "+24.5%",
+                change: "+5.1%",
+                up: true,
+                icon: TrendingUp,
+                gradient: "from-gray-900/30 to-black",
+                iconColor: "text-cyan-400",
+              },
             ].map((stat, i) => (
               <div
                 key={i}
