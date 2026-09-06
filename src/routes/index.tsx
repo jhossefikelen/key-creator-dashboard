@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { LockKeyhole, Eye, EyeOff, Loader2 } from "lucide-react";
 import { NeoLogo } from "@/components/NeoLogo";
 import { Button } from "@/components/ui/button";
@@ -98,7 +98,7 @@ function LoginPage() {
     if (ready && authed) navigate({ to: "/painel" });
   }, [ready, authed, navigate]);
 
-  function onSubmit(e: React.FormEvent) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError("");
