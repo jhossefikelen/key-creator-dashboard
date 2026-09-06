@@ -20,7 +20,6 @@ export function NeoLogo({ className = "w-16 h-16" }: NeoLogoProps) {
 
       <circle cx="50" cy="50" r="48" fill="black" stroke="#00ff41" strokeWidth="1.5" opacity="0.6" />
 
-      {/* Casaco longo */}
       <path
         d="M30 95 L34 55 Q50 40 66 55 L70 95 Z"
         fill="black"
@@ -30,7 +29,6 @@ export function NeoLogo({ className = "w-16 h-16" }: NeoLogoProps) {
       <path d="M50 55 L46 95" stroke="#00ff41" strokeWidth="0.6" opacity="0.5" />
       <path d="M50 55 L54 95" stroke="#00ff41" strokeWidth="0.6" opacity="0.5" />
 
-      {/* Gola alta */}
       <path
         d="M38 52 Q50 60 62 52 L58 45 Q50 50 42 45 Z"
         fill="black"
@@ -38,10 +36,8 @@ export function NeoLogo({ className = "w-16 h-16" }: NeoLogoProps) {
         strokeWidth="1"
       />
 
-      {/* Cabeça */}
       <circle cx="50" cy="34" r="14" fill="url(#neoGlow)" stroke="#00ff41" strokeWidth="1" />
 
-      {/* Óculos estilo Matrix */}
       <g>
         <rect x="37" y="30" width="11" height="6" rx="1.5" fill="#00ff41" opacity="0.9" />
         <rect x="52" y="30" width="11" height="6" rx="1.5" fill="#00ff41" opacity="0.9" />
@@ -50,7 +46,6 @@ export function NeoLogo({ className = "w-16 h-16" }: NeoLogoProps) {
         <path d="M63 31 L68 29" stroke="#00ff41" strokeWidth="1" />
       </g>
 
-      {/* Cabelo curto */}
       <path
         d="M38 24 Q50 16 62 24 Q60 20 50 19 Q40 20 38 24 Z"
         fill="black"
