@@ -316,12 +316,15 @@ export default function App() {
                     ></div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm">
-                        <span className="font-medium">{activity.name}</span>{' '}
+                        <span className="font-medium">{activity.name}</span>{" "}
                         <span className="text-slate-400">{activity.action}</span>
                       </p>
                       <p className="text-xs text-slate-500 mt-0.5">há {activity.time}</p>
                     </div>
-                    <ChevronRight size={14} className="text-slate-600 group-hover:text-white transition-colors mt-1" />
+                    <ChevronRight
+                      size={14}
+                      className="text-slate-600 group-hover:text-white transition-colors mt-1"
+                    />
                   </div>
                 ))}
               </div>
@@ -338,15 +341,35 @@ export default function App() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { title: 'Design System v2.0', desc: 'Componentes modernos para apps', likes: 234, comments: 18, gradient: 'from-purple-500 via-pink-500 to-red-500' },
-                { title: 'App Mobile Finance', desc: 'Gestão financeira pessoal', likes: 412, comments: 56, gradient: 'from-blue-500 via-cyan-500 to-emerald-500' },
-                { title: 'E-commerce Platform', desc: 'Plataforma completa de vendas', likes: 189, comments: 24, gradient: 'from-orange-500 via-amber-500 to-yellow-500' },
+                {
+                  title: "Design System v2.0",
+                  desc: "Componentes modernos para apps",
+                  likes: 234,
+                  comments: 18,
+                  gradient: "from-purple-500 via-pink-500 to-red-500",
+                },
+                {
+                  title: "App Mobile Finance",
+                  desc: "Gestão financeira pessoal",
+                  likes: 412,
+                  comments: 56,
+                  gradient: "from-blue-500 via-cyan-500 to-emerald-500",
+                },
+                {
+                  title: "E-commerce Platform",
+                  desc: "Plataforma completa de vendas",
+                  likes: 189,
+                  comments: 24,
+                  gradient: "from-orange-500 via-amber-500 to-yellow-500",
+                },
               ].map((post, i) => (
                 <div
                   key={i}
                   className="group p-5 rounded-2xl bg-[#0d0d14]/60 backdrop-blur-xl border border-white/5 hover:border-white/10 transition-all hover:-translate-y-1 cursor-pointer overflow-hidden relative"
                 >
-                  <div className={`h-32 rounded-xl bg-gradient-to-br ${post.gradient} mb-4 relative overflow-hidden`}>
+                  <div
+                    className={`h-32 rounded-xl bg-gradient-to-br ${post.gradient} mb-4 relative overflow-hidden`}
+                  >
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all"></div>
                   </div>
                   <h3 className="font-semibold mb-1">{post.title}</h3>

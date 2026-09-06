@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-  expiryFromDays,
-  generateCode,
-  type LicenseKey,
-} from "@/lib/license-keys";
+import { expiryFromDays, generateCode, type LicenseKey } from "@/lib/license-keys";
 
 const STORAGE_KEY = "keygen.licenses.v1";
 
@@ -66,9 +62,7 @@ export function useLicenseKeys() {
   }, []);
 
   const revoke = useCallback((id: string) => {
-    setKeys((prev) =>
-      prev.map((k) => (k.id === id ? { ...k, revoked: !k.revoked } : k)),
-    );
+    setKeys((prev) => prev.map((k) => (k.id === id ? { ...k, revoked: !k.revoked } : k)));
   }, []);
 
   const remove = useCallback((id: string) => {

@@ -39,8 +39,26 @@ export function NeoAvatar({ size = 96, className, ...props }: NeoAvatarProps) {
         strokeWidth="1"
       />
 
-      <rect x="28" y="38" width="18" height="11" rx="3" fill="#050505" stroke="#00ff41" strokeWidth="1.5" />
-      <rect x="54" y="38" width="18" height="11" rx="3" fill="#050505" stroke="#00ff41" strokeWidth="1.5" />
+      <rect
+        x="28"
+        y="38"
+        width="18"
+        height="11"
+        rx="3"
+        fill="#050505"
+        stroke="#00ff41"
+        strokeWidth="1.5"
+      />
+      <rect
+        x="54"
+        y="38"
+        width="18"
+        height="11"
+        rx="3"
+        fill="#050505"
+        stroke="#00ff41"
+        strokeWidth="1.5"
+      />
       <rect x="46" y="41" width="8" height="3" fill="#00ff41" opacity="0.7" />
 
       <path d="M28 40 L20 36" stroke="#00ff41" strokeWidth="1.5" strokeLinecap="round" />
