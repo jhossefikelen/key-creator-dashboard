@@ -1,5 +1,28 @@
-import { useState, useEffect } from 'react';
-import { Moon, Sun, Search, Bell, User, Home, BarChart3, Settings, Users, FileText, ChevronRight, Menu, X, TrendingUp, DollarSign, Activity, Zap, ArrowUp, ArrowDown, Star, Heart, MessageCircle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import {
+  Moon,
+  Sun,
+  Search,
+  Bell,
+  User,
+  Home,
+  BarChart3,
+  Settings,
+  Users,
+  FileText,
+  ChevronRight,
+  Menu,
+  X,
+  TrendingUp,
+  DollarSign,
+  Activity,
+  Zap,
+  ArrowUp,
+  ArrowDown,
+  Star,
+  Heart,
+  MessageCircle,
+} from "lucide-react";
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -8,8 +31,8 @@ export default function App() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -22,7 +45,9 @@ export default function App() {
       </div>
 
       {/* Top Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/90 backdrop-blur-xl border-b border-white/5' : 'bg-transparent'}`}>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-black/90 backdrop-blur-xl border-b border-white/5" : "bg-transparent"}`}
+      >
         <div className="px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <button
@@ -50,7 +75,10 @@ export default function App() {
           {/* Search */}
           <div className="hidden md:flex flex-1 max-w-md mx-4">
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
+                size={16}
+              />
               <input
                 type="text"
                 placeholder="Buscar..."
@@ -72,12 +100,14 @@ export default function App() {
       </nav>
 
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-16 bottom-0 z-40 bg-[#050505]/90 backdrop-blur-xl border-r border-white/10 transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-20'} ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+      <aside
+        className={`fixed left-0 top-16 bottom-0 z-40 bg-[#050505]/90 backdrop-blur-xl border-r border-white/10 transition-all duration-300 ${sidebarOpen ? "w-64" : "w-20"} ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+      >
         <nav className="p-4 space-y-1">
           {[
-            { icon: Home, label: 'Dashboard', badge: null, active: true },
-            { icon: BarChart3, label: 'Analytics', badge: 'New' },
-            { icon: Users, label: 'Usuários', badge: null },
+            { icon: Home, label: "Dashboard", badge: null, active: true },
+            { icon: BarChart3, label: "Analytics", badge: "New" },
+            { icon: Users, label: "Usuários", badge: null },
             { icon: FileText, label: 'Relatórios', badge: null },
             { icon: TrendingUp, label: 'Performance', badge: null },
             { icon: Settings, label: 'Configurações', badge: null },
