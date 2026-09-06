@@ -219,13 +219,17 @@ export default function App() {
                 key={i}
                 className="group relative p-5 rounded-2xl bg-[#0a0a0a]/70 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40"
               >
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-100 transition-opacity`}></div>
+                <div
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-100 transition-opacity`}
+                ></div>
                 <div className="relative">
                   <div className="flex items-center justify-between mb-3">
                     <div className={`p-2 rounded-lg bg-white/5 ${stat.iconColor}`}>
                       <stat.icon size={18} />
                     </div>
-                    <span className={`flex items-center gap-1 text-xs font-medium ${stat.up ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <span
+                      className={`flex items-center gap-1 text-xs font-medium ${stat.up ? "text-emerald-400" : "text-red-400"}`}
+                    >
                       {stat.up ? <ArrowUp size={12} /> : <ArrowDown size={12} />}
                       {stat.change}
                     </span>
@@ -247,10 +251,10 @@ export default function App() {
                   <p className="text-xs text-slate-500 mt-0.5">Últimos 7 dias</p>
                 </div>
                 <div className="flex gap-1 p-1 bg-white/5 rounded-lg">
-                  {['7d', '30d', '90d'].map((period, i) => (
+                  {["7d", "30d", "90d"].map((period, i) => (
                     <button
                       key={period}
-                      className={`px-3 py-1 text-xs rounded-md transition-all ${i === 0 ? 'bg-gray-800 border border-white/20 text-white' : 'text-slate-400 hover:text-white'}`}
+                      className={`px-3 py-1 text-xs rounded-md transition-all ${i === 0 ? "bg-gray-800 border border-white/20 text-white" : "text-slate-400 hover:text-white"}`}
                     >
                       {period}
                     </button>
@@ -268,7 +272,9 @@ export default function App() {
                         style={{ height: `${h}%` }}
                       ></div>
                     </div>
-                    <span className="text-[10px] text-slate-500">{['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'][i]}</span>
+                    <span className="text-[10px] text-slate-500">
+                      {["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"][i]}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -279,13 +285,35 @@ export default function App() {
               <h3 className="font-semibold mb-4">Atividade Recente</h3>
               <div className="space-y-3">
                 {[
-                  { name: 'Ana Silva', action: 'criou um novo projeto', time: '2min', color: 'from-gray-700 to-black' },
-                  { name: 'Carlos Lima', action: 'completou uma tarefa', time: '15min', color: 'from-stone-700 to-black' },
-                  { name: 'Beatriz Costa', action: 'comentou no post', time: '1h', color: 'from-red-950 to-black' },
-                  { name: 'Diego Santos', action: 'atualizou o design', time: '3h', color: 'from-gray-800 to-black' },
+                  {
+                    name: "Ana Silva",
+                    action: "criou um novo projeto",
+                    time: "2min",
+                    color: "from-gray-700 to-black",
+                  },
+                  {
+                    name: "Carlos Lima",
+                    action: "completou uma tarefa",
+                    time: "15min",
+                    color: "from-stone-700 to-black",
+                  },
+                  {
+                    name: "Beatriz Costa",
+                    action: "comentou no post",
+                    time: "1h",
+                    color: "from-red-950 to-black",
+                  },
+                  {
+                    name: "Diego Santos",
+                    action: "atualizou o design",
+                    time: "3h",
+                    color: "from-gray-800 to-black",
+                  },
                 ].map((activity, i) => (
                   <div key={i} className="flex items-start gap-3 group cursor-pointer">
-                    <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${activity.color} flex-shrink-0`}></div>
+                    <div
+                      className={`w-8 h-8 rounded-full bg-gradient-to-br ${activity.color} flex-shrink-0`}
+                    ></div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm">
                         <span className="font-medium">{activity.name}</span>{' '}
