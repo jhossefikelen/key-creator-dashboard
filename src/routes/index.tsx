@@ -8,16 +8,16 @@ import { useAdminGate } from "@/hooks/useAdminGate";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BlackShark // Acesso Admin" },
+      { title: "NIL // Acesso Admin" },
       {
         name: "description",
         content:
-          "Área restrita do painel BlackShark. Autentique-se para gerar e gerenciar keys.",
+          "Área restrita do painel. Autentique-se para gerar e gerenciar keys.",
       },
-      { property: "og:title", content: "BlackShark // Acesso Admin" },
+      { property: "og:title", content: "NIL // Acesso Admin" },
       {
         property: "og:description",
-        content: "Área restrita do painel de geração de chaves de licença BlackShark.",
+        content: "Área restrita do painel de geração de chaves.",
       },
       { name: "robots", content: "noindex" },
     ],
@@ -116,11 +116,13 @@ function LoginPage() {
       <MatrixRain />
       <div className="relative z-10 animate-fade-in-up w-full max-w-md rounded-2xl border border-[#00ff41]/40 bg-black/80 p-8 shadow-[0_0_25px_rgba(0,255,65,0.25)] backdrop-blur-sm sm:p-10">
         <div className="stagger-1 flex flex-col items-center text-center">
-          <div className="flex size-16 items-center justify-center overflow-hidden rounded-xl border border-[#00ff41]/50 shadow-[0_0_15px_rgba(0,255,65,0.4)]">
-            <img src="/lunax-assets/d628aa5e2e25-gemini_generated_image_mw9arhmw9arhmw9a.png" alt="Logo" className="size-16 object-contain" />
+          <div className="flex items-center justify-center">
+            <span className="text-6xl font-bold font-mono tracking-[0.1em] text-[#00ff41] drop-shadow-[0_0_15px_rgba(0,255,65,0.8)] animate-pulse">
+              NIL
+            </span>
           </div>
-          <span className="matrix-glow mt-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#00ff41]">
-            BlackShark
+          <span className="matrix-glow mt-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#00ff41]/80">
+            System Access
           </span>
         </div>
 
