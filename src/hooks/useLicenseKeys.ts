@@ -1,81 +1,72 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-  expiryFromDays,
-  generateCode,
-  type LicenseKey,
-} from "@/lib/license-keys";
+import { adminRequest, getValidSession, type LicenseRecord } from "@/lib/lunax-api";
 
-const STORAGE_KEY = "keygen.licenses.v1";
-
-// Fonte de dados isolada: ao integrar o banco, troque apenas as funções abaixo
-// por chamadas ao backend — a UI não muda.
-function load(): LicenseKey[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as LicenseKey[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-export type GenerateOptions = {
+export type CreateLicenseOptions = {
   quantity: number;
-  groups: number;
-  groupSize: number;
-  prefix: string;
-  durationDays: number | null;
-  maxActivations: number;
-  note: string;
+  plan: "daily" | "fortnightly" | "monthly" | "lifetime";
+  maxDevices: number;
+  customerName: string;
+  email: string;
 };
 
-export function useLicenseKeys() {
-  const [keys, setKeys] = useState<LicenseKey[]>([]);
-  const [hydrated, setHydrated] = useState(false);
+export function useLicenseKeys(enabled = true) {
+  const [keys, setKeys] = useState<LicenseRecord[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setKeys(load());
-    setHydrated(true);
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(keys));
-  }, [keys, hydrated]);
-
-  const generate = useCallback((opts: GenerateOptions): LicenseKey[] => {
-    const existing = new Set(load().map((k) => k.code));
-    const created: LicenseKey[] = [];
-    while (created.length < opts.quantity) {
-      const code = generateCode(opts.groups, opts.groupSize, opts.prefix);
-      if (existing.has(code)) continue;
-      existing.add(code);
-      created.push({
-        id: crypto.randomUUID(),
-        code,
-        createdAt: new Date().toISOString(),
-        expiresAt: expiryFromDays(opts.durationDays),
-        maxActivations: opts.maxActivations,
-        activations: 0,
-        revoked: false,
-        note: opts.note.trim(),
-      });
+  const reload = useCallback(async () => {
+    setLoading(true);
+    try {
+      const session = await getValidSession();
+      if (!session) throw new Error("Sua sessão expirou.");
+      const data = await adminRequest(session, { action: "list" });
+      setKeys(data.licenses || []);
+    } finally {
+      setLoading(false);
     }
-    setKeys((prev) => [...created, ...prev]);
-    return created;
   }, []);
 
-  const revoke = useCallback((id: string) => {
-    setKeys((prev) =>
-      prev.map((k) => (k.id === id ? { ...k, revoked: !k.revoked } : k)),
-    );
-  }, []);
+  useEffect(() => {
+    if (enabled) void reload().catch(() => {});
+    else setLoading(false);
+  }, [enabled, reload]);
 
-  const remove = useCallback((id: string) => {
-    setKeys((prev) => prev.filter((k) => k.id !== id));
-  }, []);
+  const generate = useCallback(
+    async (options: CreateLicenseOptions) => {
+      const session = await getValidSession();
+      if (!session) throw new Error("Sua sessão expirou.");
+      const data = await adminRequest(session, {
+        action: "create",
+        ...options,
+      });
+      await reload();
+      return data.created as Array<{
+        id: number;
+        key: string;
+        keyPrefix: string;
+      }>;
+    },
+    [reload],
+  );
 
-  const clearAll = useCallback(() => setKeys([]), []);
+  const setStatus = useCallback(
+    async (licenseId: number, status: "active" | "revoked") => {
+      const session = await getValidSession();
+      if (!session) throw new Error("Sua sessão expirou.");
+      await adminRequest(session, { action: "set_status", licenseId, status });
+      await reload();
+    },
+    [reload],
+  );
 
-  return { keys, hydrated, generate, revoke, remove, clearAll };
+  const resetDevices = useCallback(
+    async (licenseId: number) => {
+      const session = await getValidSession();
+      if (!session) throw new Error("Sua sessão expirou.");
+      await adminRequest(session, { action: "reset_devices", licenseId });
+      await reload();
+    },
+    [reload],
+  );
+
+  return { keys, loading, reload, generate, setStatus, resetDevices };
 }

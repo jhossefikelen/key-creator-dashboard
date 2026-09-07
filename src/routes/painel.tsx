@@ -1,399 +1,584 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import {
+  Ban,
+  Check,
+  Copy,
+  KeyRound,
+  Loader2,
+  LogOut,
+  MonitorSmartphone,
+  RefreshCw,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from "lucide-react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
-import { Copy, Download, LogOut, KeyRound, Trash2, Ban, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { MatrixRain } from "@/components/MatrixRain";
 import { useAdminGate } from "@/hooks/useAdminGate";
-import { useLicenseKeys } from "@/hooks/useLicenseKeys";
-import { formatDate, statusOf, type LicenseKey } from "@/lib/license-keys";
+import { useLicenseKeys, type CreateLicenseOptions } from "@/hooks/useLicenseKeys";
+import type { LicenseRecord } from "@/lib/lunax-api";
 
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "Familia Adams // Painel de Licenças" },
+      { title: "LunaX Infinity // Painel administrativo" },
       {
         name: "description",
-        content:
-          "Familia Adams - Gere, revogue e acompanhe chaves de licença com validade e limite de ativações.",
+        content: "Crie chaves, controle clientes, planos e dispositivos LunaX.",
       },
-      { property: "og:title", content: "Familia Adams // Painel de Licenças" },
-      {
-        property: "og:description",
-        content: "Familia Adams - Gere, revogue e acompanhe chaves de licença em um painel único.",
-      },
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex,nofollow" },
     ],
   }),
-  component: PainelPage,
+  component: LicenseDashboard,
 });
 
-const STATUS_STYLES: Record<string, string> = {
-  ativa: "border-primary text-primary",
-  revogada: "border-destructive text-destructive",
-  expirada: "border-warning text-warning",
+const PLAN_LABEL: Record<string, string> = {
+  daily: "Diário",
+  fortnightly: "Quinzenal",
+  monthly: "Mensal",
+  lifetime: "Vitalício",
 };
 
-function PainelPage() {
-  const navigate = useNavigate();
-  const { authed, ready, logout } = useAdminGate();
-  const { keys, hydrated, generate, revoke, remove, clearAll } = useLicenseKeys();
+function dateLabel(value: string | null) {
+  if (!value) return "Sem expiração";
+  return new Date(value).toLocaleString("pt-BR", {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
+}
 
-  const [quantity, setQuantity] = useState(5);
-  const [groups, setGroups] = useState("4");
-  const [prefix, setPrefix] = useState("");
-  const [duration, setDuration] = useState("30");
-  const [maxActivations, setMaxActivations] = useState(1);
-  const [note, setNote] = useState("");
-  const [batch, setBatch] = useState<LicenseKey[]>([]);
+function statusOf(license: LicenseRecord) {
+  if (license.status === "revoked") return "revoked";
+  if (license.expiresAt && new Date(license.expiresAt).getTime() < Date.now()) {
+    return "expired";
+  }
+  return "active";
+}
+
+function LicenseDashboard() {
+  const navigate = useNavigate();
+  const { authed, ready, session, logout } = useAdminGate();
+  const { keys, loading, reload, generate, setStatus, resetDevices } = useLicenseKeys(authed);
+  const [plan, setPlan] = useState<CreateLicenseOptions["plan"]>("monthly");
+  const [quantity, setQuantity] = useState(1);
+  const [maxDevices, setMaxDevices] = useState(1);
+  const [customerName, setCustomerName] = useState("");
+  const [email, setEmail] = useState("");
   const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("todas");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [busy, setBusy] = useState<string | null>(null);
+  const [generatedKeys, setGeneratedKeys] = useState<
+    Array<{ id: number; key: string; keyPrefix: string }>
+  >([]);
 
   useEffect(() => {
-    if (ready && !authed) navigate({ to: "/" });
-  }, [ready, authed, navigate]);
+    if (ready && !authed) void navigate({ to: "/admin" });
+  }, [authed, navigate, ready]);
 
-  const stats = useMemo(() => {
-    const counts = { total: keys.length, ativa: 0, revogada: 0, expirada: 0 };
-    for (const k of keys) counts[statusOf(k)] += 1;
-    return counts;
-  }, [keys]);
+  const filtered = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    return keys.filter((license) => {
+      const status = statusOf(license);
+      const text = [
+        license.keyPrefix,
+        license.customerName,
+        license.email,
+        PLAN_LABEL[license.plan] || license.plan,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return (
+        (!normalized || text.includes(normalized)) &&
+        (statusFilter === "all" || statusFilter === status)
+      );
+    });
+  }, [keys, query, statusFilter]);
 
-  const filtered = useMemo(
-    () =>
-      keys.filter((k) => {
-        const matchesQuery =
-          !query ||
-          k.code.toLowerCase().includes(query.toLowerCase()) ||
-          k.note.toLowerCase().includes(query.toLowerCase());
-        const matchesStatus =
-          statusFilter === "todas" || statusOf(k) === statusFilter;
-        return matchesQuery && matchesStatus;
-      }),
-    [keys, query, statusFilter],
+  const stats = useMemo(
+    () => ({
+      total: keys.length,
+      active: keys.filter((license) => statusOf(license) === "active").length,
+      devices: keys.reduce((total, license) => total + Number(license.activeDevices || 0), 0),
+      commands: keys.reduce((total, license) => total + Number(license.commandsCount || 0), 0),
+    }),
+    [keys],
   );
 
-  function onGenerate() {
-    const qty = Math.min(Math.max(Math.trunc(quantity) || 1, 1), 100);
-    const created = generate({
-      quantity: qty,
-      groups: Number(groups),
-      groupSize: 4,
-      prefix,
-      durationDays: duration === "vitalicia" ? null : Number(duration),
-      maxActivations: Math.max(Math.trunc(maxActivations) || 1, 1),
-      note,
-    });
-    setBatch(created);
-    toast.success(`${created.length} key(s) geradas`);
+  async function onGenerate() {
+    setBusy("create");
+    try {
+      const created = await generate({
+        quantity: Math.min(50, Math.max(1, Math.trunc(quantity) || 1)),
+        plan,
+        maxDevices: Math.min(100, Math.max(1, Math.trunc(maxDevices) || 1)),
+        customerName,
+        email,
+      });
+      setGeneratedKeys(created);
+      setCustomerName("");
+      setEmail("");
+      toast.success(
+        created.length === 1
+          ? "Chave criada e salva no Supabase."
+          : `${created.length} chaves criadas e salvas no Supabase.`,
+      );
+    } catch (caught) {
+      toast.error(caught instanceof Error ? caught.message : "Não foi possível criar.");
+    } finally {
+      setBusy(null);
+    }
   }
 
-  async function copy(text: string, label = "Key copiada") {
-    await navigator.clipboard.writeText(text);
-    toast.success(label);
+  async function copy(text: string, message = "Chave copiada.") {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success(message);
+    } catch {
+      toast.error("O navegador não permitiu copiar.");
+    }
   }
 
-  function downloadBatch() {
-    const blob = new Blob([batch.map((k) => k.code).join("\n")], {
-      type: "text/plain",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `keys-${Date.now()}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+  async function perform(name: string, action: () => Promise<void>, success: string) {
+    setBusy(name);
+    try {
+      await action();
+      toast.success(success);
+    } catch (caught) {
+      toast.error(caught instanceof Error ? caught.message : "Não foi possível concluir.");
+    } finally {
+      setBusy(null);
+    }
   }
 
-  if (!ready || !authed) return null;
+  function signOut() {
+    logout();
+    void navigate({ to: "/admin" });
+  }
+
+  if (!ready || (authed && loading && !keys.length)) {
+    return (
+      <main className="grid min-h-screen place-items-center bg-[#010502] text-[#00ff66]">
+        <Loader2 className="size-8 animate-spin" />
+      </main>
+    );
+  }
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-6xl bg-black px-4 py-10">
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-[#3a0a0a] pb-6">
-        <div>
-          <h1 className="text-glow flex items-center gap-2 text-2xl font-bold text-[#8b1a1a]">
-            <KeyRound className="size-6" /> Familia Adams
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Emissão e controle de chaves — armazenamento local até a integração do banco.
-          </p>
+    <main className="relative min-h-screen overflow-hidden bg-[#010502] text-[#eafff0]">
+      <MatrixRain opacity={0.1} />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,255,102,.09),transparent_32%),linear-gradient(to_bottom,rgba(1,5,2,.3),#010502_70%)]" />
+
+      <header className="sticky top-0 z-30 border-b border-[#153a20] bg-[#020804]/92 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-4 lg:px-8">
+          <div className="flex items-center gap-3">
+            <span className="grid size-10 place-items-center rounded-xl border border-[#00ff66]/35 bg-[#07150b] font-mono text-xs font-black text-[#00ff66]">
+              LX
+            </span>
+            <span>
+              <b className="block font-mono text-sm uppercase tracking-[0.16em]">
+                LunaX Command Center
+              </b>
+              <span className="text-xs text-[#66836d]">Licenças e clientes em produção</span>
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="hidden rounded-lg border border-[#1a4326] bg-[#061009] px-3 py-2 text-xs text-[#8aae94] md:block">
+              {session?.email}
+            </span>
+            <button
+              onClick={() => void reload()}
+              disabled={loading}
+              className="grid size-10 place-items-center rounded-xl border border-[#1a4326] bg-[#061009] text-[#9cc8a8] transition hover:border-[#00ff66]/60 hover:text-[#00ff66] disabled:opacity-50"
+              aria-label="Atualizar licenças"
+            >
+              <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} />
+            </button>
+            <button
+              onClick={signOut}
+              className="flex h-10 items-center gap-2 rounded-xl border border-[#1a4326] bg-[#061009] px-3 text-sm text-[#9cc8a8] transition hover:border-red-500/50 hover:text-red-300"
+            >
+              <LogOut className="size-4" />
+              <span className="hidden sm:inline">Sair</span>
+            </button>
+          </div>
         </div>
-        <Button
-          variant="outline"
-          className="rounded-none border-border uppercase tracking-widest"
-          onClick={() => {
-            logout();
-            navigate({ to: "/" });
-          }}
-        >
-          <LogOut className="size-4" /> Sair
-        </Button>
       </header>
 
-      <section className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {[
-          { label: "Total", value: stats.total },
-          { label: "Ativas", value: stats.ativa },
-          { label: "Revogadas", value: stats.revogada },
-          { label: "Expiradas", value: stats.expirada },
-        ].map((s) => (
-          <div key={s.label} className="border border-border bg-card p-4">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground">
-              {s.label}
-            </p>
-            <p className="text-glow mt-1 text-3xl font-bold text-primary">
-              {hydrated ? s.value : 0}
-            </p>
-          </div>
-        ))}
-      </section>
-
-      <section className="scanlines mt-6 border border-border bg-card p-6">
-        <h2 className="text-sm uppercase tracking-[0.3em] text-primary">Gerador</h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          <Field label="Quantidade (1-100)">
-            <Input
-              type="number"
-              min={1}
-              max={100}
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              className="rounded-none bg-background"
-            />
-          </Field>
-          <Field label="Formato">
-            <Select value={groups} onValueChange={setGroups}>
-              <SelectTrigger className="w-full rounded-none bg-background">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="3">XXXX-XXXX-XXXX</SelectItem>
-                <SelectItem value="4">XXXX-XXXX-XXXX-XXXX</SelectItem>
-                <SelectItem value="5">XXXX-XXXX-XXXX-XXXX-XXXX</SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-          <Field label="Prefixo (opcional)">
-            <Input
-              value={prefix}
-              onChange={(e) => setPrefix(e.target.value)}
-              placeholder="PRO"
-              className="rounded-none bg-background uppercase"
-            />
-          </Field>
-          <Field label="Duração">
-            <Select value={duration} onValueChange={setDuration}>
-              <SelectTrigger className="w-full rounded-none bg-background">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="7">7 dias</SelectItem>
-                <SelectItem value="30">30 dias</SelectItem>
-                <SelectItem value="90">90 dias</SelectItem>
-                <SelectItem value="vitalicia">Vitalícia</SelectItem>
-              </SelectContent>
-            </Select>
-          </Field>
-          <Field label="Limite de ativações">
-            <Input
-              type="number"
-              min={1}
-              value={maxActivations}
-              onChange={(e) => setMaxActivations(Number(e.target.value))}
-              className="rounded-none bg-background"
-            />
-          </Field>
-          <Field label="Observação (opcional)">
-            <Input
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="lote parceiros"
-              className="rounded-none bg-background"
-            />
-          </Field>
-        </div>
-        <Button
-          onClick={onGenerate}
-          className="glow mt-5 rounded-none uppercase tracking-[0.2em]"
-        >
-          Gerar keys
-        </Button>
-      </section>
-
-      {batch.length > 0 ? (
-        <section className="mt-6 border border-primary/60 bg-card p-6 shadow-[var(--glow-primary)]">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-sm uppercase tracking-[0.3em] text-primary">
-              Último lote ({batch.length})
-            </h2>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                className="rounded-none border-border"
-                onClick={() =>
-                  copy(batch.map((k) => k.code).join("\n"), "Lote copiado")
-                }
-              >
-                <Copy className="size-4" /> Copiar tudo
-              </Button>
-              <Button
-                variant="outline"
-                className="rounded-none border-border"
-                onClick={downloadBatch}
-              >
-                <Download className="size-4" /> .txt
-              </Button>
-            </div>
-          </div>
-          <pre className="mt-4 max-h-56 overflow-auto whitespace-pre-wrap break-all border border-border bg-background p-4 text-sm text-primary">
-            {batch.map((k) => k.code).join("\n")}
-          </pre>
+      <div className="relative z-10 mx-auto max-w-[1500px] space-y-6 px-5 py-7 lg:px-8">
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {[
+            {
+              icon: KeyRound,
+              label: "Chaves cadastradas",
+              value: stats.total,
+            },
+            {
+              icon: ShieldCheck,
+              label: "Licenças ativas",
+              value: stats.active,
+            },
+            {
+              icon: MonitorSmartphone,
+              label: "Dispositivos ativos",
+              value: stats.devices,
+            },
+            {
+              icon: Sparkles,
+              label: "Comandos executados",
+              value: stats.commands,
+            },
+          ].map(({ icon: Icon, label, value }) => (
+            <article
+              key={label}
+              className="rounded-2xl border border-[#173d22] bg-[#050e08]/92 p-5"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-[#76927d]">{label}</span>
+                <Icon className="size-4 text-[#00ff66]" />
+              </div>
+              <strong className="mt-3 block font-mono text-3xl text-[#eafff0]">{value}</strong>
+            </article>
+          ))}
         </section>
-      ) : null}
 
-      <section className="mt-6 border border-border bg-card">
-        <div className="flex flex-wrap items-center gap-3 border-b border-border p-4">
-          <div className="relative flex-1 min-w-52">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="buscar key ou observação"
-              className="rounded-none bg-background pl-9"
-            />
-          </div>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-44 rounded-none bg-background">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="todas">Todos os status</SelectItem>
-              <SelectItem value="ativa">Ativas</SelectItem>
-              <SelectItem value="revogada">Revogadas</SelectItem>
-              <SelectItem value="expirada">Expiradas</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button
-            variant="outline"
-            className="rounded-none border-destructive/60 text-destructive"
-            onClick={() => {
-              clearAll();
-              setBatch([]);
-              toast.success("Histórico limpo");
-            }}
-          >
-            <Trash2 className="size-4" /> Limpar tudo
-          </Button>
-        </div>
+        <section className="grid gap-6 xl:grid-cols-[390px_1fr]">
+          <aside className="h-fit rounded-3xl border border-[#1b4b2a] bg-[#040d07]/96 p-6 shadow-[0_25px_80px_rgba(0,0,0,.35)] xl:sticky xl:top-24">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#00ff66]">
+                  Nova licença
+                </p>
+                <h1 className="mt-2 text-2xl font-black">Gerar chave</h1>
+              </div>
+              <span className="grid size-11 place-items-center rounded-xl border border-[#00ff66]/25 bg-[#00ff66]/8 text-[#00ff66]">
+                <KeyRound className="size-5" />
+              </span>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-[#71917a]">
+              A chave é salva diretamente no banco utilizado pela extensão e aparece apenas uma vez
+              após a criação.
+            </p>
 
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Key</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Validade</TableHead>
-                <TableHead>Ativações</TableHead>
-                <TableHead>Criada em</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filtered.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6} className="py-10 text-center text-muted-foreground">
-                    Nenhuma key encontrada.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                filtered.map((k) => {
-                  const status = statusOf(k);
-                  return (
-                    <TableRow key={k.id}>
-                      <TableCell className="text-primary">
-                        {k.code}
-                        {k.note ? (
-                          <span className="block text-xs text-muted-foreground">
-                            {k.note}
+            <div className="mt-6 space-y-4">
+              <Field label="Plano">
+                <select
+                  value={plan}
+                  onChange={(event) => setPlan(event.target.value as CreateLicenseOptions["plan"])}
+                  className="matrix-input"
+                >
+                  <option value="daily">Diário — 24 horas</option>
+                  <option value="fortnightly">Quinzenal — 15 dias</option>
+                  <option value="monthly">Mensal — 30 dias</option>
+                  <option value="lifetime">Vitalício — sem expiração</option>
+                </select>
+              </Field>
+              <div className="grid grid-cols-2 gap-3">
+                <Field label="Quantidade">
+                  <input
+                    className="matrix-input"
+                    type="number"
+                    min={1}
+                    max={50}
+                    value={quantity}
+                    onChange={(event) => setQuantity(Number(event.target.value))}
+                  />
+                </Field>
+                <Field label="Dispositivos">
+                  <input
+                    className="matrix-input"
+                    type="number"
+                    min={1}
+                    max={100}
+                    value={maxDevices}
+                    onChange={(event) => setMaxDevices(Number(event.target.value))}
+                  />
+                </Field>
+              </div>
+              <Field label="Nome do cliente">
+                <input
+                  className="matrix-input"
+                  value={customerName}
+                  onChange={(event) => setCustomerName(event.target.value)}
+                  placeholder="Nome ou empresa"
+                />
+              </Field>
+              <Field label="E-mail do cliente">
+                <input
+                  className="matrix-input"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="cliente@empresa.com"
+                />
+              </Field>
+              <button
+                onClick={() => void onGenerate()}
+                disabled={busy === "create"}
+                className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#00e85d] font-bold text-[#001a08] shadow-[0_0_28px_rgba(0,255,102,.17)] transition hover:bg-[#34ff7f] disabled:cursor-wait disabled:opacity-60"
+              >
+                {busy === "create" ? (
+                  <Loader2 className="size-5 animate-spin" />
+                ) : (
+                  <Sparkles className="size-5" />
+                )}
+                {busy === "create" ? "Criando..." : "Criar e salvar chave"}
+              </button>
+            </div>
+          </aside>
+
+          <section className="min-w-0 rounded-3xl border border-[#173d22] bg-[#040d07]/96">
+            <div className="border-b border-[#153a20] p-5 lg:p-6">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#00ff66]">
+                    Base de clientes
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black">Licenças LunaX</h2>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <label className="relative min-w-0 sm:w-72">
+                    <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#55705d]" />
+                    <input
+                      className="matrix-input pl-10"
+                      value={query}
+                      onChange={(event) => setQuery(event.target.value)}
+                      placeholder="Buscar cliente, e-mail ou prefixo..."
+                    />
+                  </label>
+                  <select
+                    className="matrix-input sm:w-40"
+                    value={statusFilter}
+                    onChange={(event) => setStatusFilter(event.target.value)}
+                  >
+                    <option value="all">Todos</option>
+                    <option value="active">Ativos</option>
+                    <option value="expired">Expirados</option>
+                    <option value="revoked">Revogados</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[920px] text-left text-sm">
+                <thead className="border-b border-[#14371f] bg-[#020804] font-mono text-[10px] uppercase tracking-[0.13em] text-[#5f7d67]">
+                  <tr>
+                    <th className="px-5 py-4">Cliente / chave</th>
+                    <th className="px-4 py-4">Plano</th>
+                    <th className="px-4 py-4">Status</th>
+                    <th className="px-4 py-4">Dispositivos</th>
+                    <th className="px-4 py-4">Uso</th>
+                    <th className="px-5 py-4 text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#102c19]">
+                  {filtered.map((license) => {
+                    const status = statusOf(license);
+                    return (
+                      <tr key={license.id} className="transition hover:bg-[#07140b]">
+                        <td className="px-5 py-4">
+                          <strong className="block text-[#e8ffef]">
+                            {license.customerName || "Cliente sem nome"}
+                          </strong>
+                          <span className="mt-1 block text-xs text-[#66836d]">
+                            {license.email || "Sem e-mail"}
                           </span>
-                        ) : null}
-                      </TableCell>
-                      <TableCell>
-                        <span
-                          className={`border px-2 py-0.5 text-xs uppercase tracking-widest ${STATUS_STYLES[status]}`}
-                        >
-                          {status}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {formatDate(k.expiresAt)}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {k.activations}/{k.maxActivations}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {formatDate(k.createdAt)}
-                      </TableCell>
-                      <TableCell className="text-right whitespace-nowrap">
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          aria-label="Copiar key"
-                          onClick={() => copy(k.code)}
-                        >
-                          <Copy className="size-4" />
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          aria-label="Revogar key"
-                          onClick={() => revoke(k.id)}
-                        >
-                          <Ban className="size-4" />
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          aria-label="Excluir key"
-                          onClick={() => remove(k.id)}
-                        >
-                          <Trash2 className="size-4 text-destructive" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
+                          <button
+                            onClick={() => void copy(license.keyPrefix, "Prefixo copiado.")}
+                            className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#1e4b2b] bg-[#07120a] px-2 py-1 font-mono text-[10px] text-[#8fba9b] transition hover:border-[#00ff66]/50 hover:text-[#00ff66]"
+                            title="Copiar prefixo identificador"
+                          >
+                            {license.keyPrefix}
+                            <Copy className="size-3" />
+                          </button>
+                        </td>
+                        <td className="px-4 py-4">
+                          <span className="font-semibold text-[#bfe0c7]">
+                            {PLAN_LABEL[license.plan] || license.plan}
+                          </span>
+                          <span className="mt-1 block text-xs text-[#66836d]">
+                            {dateLabel(license.expiresAt)}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4">
+                          <StatusBadge status={status} />
+                        </td>
+                        <td className="px-4 py-4">
+                          <span className="font-mono text-[#bfe0c7]">
+                            {license.activeDevices}/{license.maxDevices}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4">
+                          <span className="font-mono text-[#bfe0c7]">{license.commandsCount}</span>
+                          <span className="mt-1 block text-xs text-[#66836d]">
+                            {license.lastUsedAt ? dateLabel(license.lastUsedAt) : "Nunca usada"}
+                          </span>
+                        </td>
+                        <td className="px-5 py-4">
+                          <div className="flex justify-end gap-2">
+                            <button
+                              onClick={() =>
+                                void perform(
+                                  `reset-${license.id}`,
+                                  () => resetDevices(license.id),
+                                  "Dispositivos liberados.",
+                                )
+                              }
+                              disabled={busy === `reset-${license.id}`}
+                              className="matrix-action"
+                              title="Liberar todos os dispositivos"
+                            >
+                              {busy === `reset-${license.id}` ? (
+                                <Loader2 className="size-4 animate-spin" />
+                              ) : (
+                                <MonitorSmartphone className="size-4" />
+                              )}
+                            </button>
+                            <button
+                              onClick={() =>
+                                void perform(
+                                  `status-${license.id}`,
+                                  () =>
+                                    setStatus(
+                                      license.id,
+                                      license.status === "revoked" ? "active" : "revoked",
+                                    ),
+                                  license.status === "revoked"
+                                    ? "Licença reativada."
+                                    : "Licença revogada.",
+                                )
+                              }
+                              disabled={busy === `status-${license.id}`}
+                              className={`matrix-action ${
+                                license.status === "revoked"
+                                  ? "text-[#00ff66]"
+                                  : "hover:border-red-500/50 hover:text-red-300"
+                              }`}
+                              title={
+                                license.status === "revoked"
+                                  ? "Reativar licença"
+                                  : "Revogar licença"
+                              }
+                            >
+                              {busy === `status-${license.id}` ? (
+                                <Loader2 className="size-4 animate-spin" />
+                              ) : license.status === "revoked" ? (
+                                <Check className="size-4" />
+                              ) : (
+                                <Ban className="size-4" />
+                              )}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              {!filtered.length && (
+                <div className="grid min-h-64 place-items-center px-6 text-center">
+                  <div>
+                    <Users className="mx-auto size-8 text-[#356243]" />
+                    <p className="mt-3 font-semibold text-[#a8c9b1]">Nenhuma licença encontrada.</p>
+                    <p className="mt-1 text-sm text-[#5e7966]">
+                      Gere a primeira chave ou ajuste os filtros.
+                    </p>
+                  </div>
+                </div>
               )}
-            </TableBody>
-          </Table>
+            </div>
+          </section>
+        </section>
+      </div>
+
+      {generatedKeys.length > 0 && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/80 p-5 backdrop-blur-sm">
+          <section className="w-full max-w-xl rounded-3xl border border-[#00ff66]/40 bg-[#030b05] p-6 shadow-[0_25px_100px_rgba(0,0,0,.75),0_0_50px_rgba(0,255,102,.12)]">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#00ff66]">
+                  Criadas com sucesso
+                </p>
+                <h2 className="mt-2 text-2xl font-black">Copie as chaves agora</h2>
+              </div>
+              <span className="grid size-10 place-items-center rounded-full bg-[#00ff66]/10 text-[#00ff66]">
+                <Check className="size-5" />
+              </span>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-[#7d9f85]">
+              Por segurança, a chave completa não é armazenada e não poderá ser exibida novamente.
+            </p>
+            <div className="mt-5 max-h-72 space-y-3 overflow-auto">
+              {generatedKeys.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center gap-3 rounded-xl border border-[#194827] bg-[#06120a] p-3"
+                >
+                  <code className="min-w-0 flex-1 break-all text-xs text-[#caffd7]">
+                    {item.key}
+                  </code>
+                  <button
+                    className="matrix-action shrink-0"
+                    onClick={() => void copy(item.key)}
+                    title="Copiar chave"
+                  >
+                    <Copy className="size-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <button
+                onClick={() =>
+                  void copy(
+                    generatedKeys.map((item) => item.key).join("\n"),
+                    "Todas as chaves foram copiadas.",
+                  )
+                }
+                className="rounded-xl border border-[#00ff66]/35 bg-[#07150b] py-3 font-bold text-[#9dffba] transition hover:border-[#00ff66]"
+              >
+                Copiar todas
+              </button>
+              <button
+                onClick={() => setGeneratedKeys([])}
+                className="rounded-xl bg-[#00e85d] py-3 font-bold text-[#001a08] transition hover:bg-[#34ff7f]"
+              >
+                Concluir
+              </button>
+            </div>
+          </section>
         </div>
-      </section>
+      )}
     </main>
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="space-y-2">
-      <span className="block text-xs uppercase tracking-widest text-muted-foreground">
+    <label className="block">
+      <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.16em] text-[#6e9477]">
         {label}
       </span>
       {children}
-    </div>
+    </label>
+  );
+}
+
+function StatusBadge({ status }: { status: "active" | "expired" | "revoked" }) {
+  const options = {
+    active: ["Ativa", "border-[#00ff66]/30 bg-[#00ff66]/8 text-[#56ff8e]"],
+    expired: ["Expirada", "border-amber-400/30 bg-amber-400/8 text-amber-300"],
+    revoked: ["Revogada", "border-red-500/30 bg-red-500/8 text-red-300"],
+  } as const;
+  const [label, className] = options[status];
+  return (
+    <span
+      className={`inline-flex rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${className}`}
+    >
+      {label}
+    </span>
   );
 }
