@@ -6,9 +6,9 @@ const SUPABASE_ANON_KEY = "sb_publishable_NWgF4yv6wGQYMKXuMkTgCA_sZKQ7BYu";
 
 export type TrialResult = {
   ok: boolean;
-  key?: string;
-  expiresAt?: string;
-  error?: string;
+  key?: string | undefined;
+  expiresAt?: string | undefined;
+  error?: string | undefined;
 };
 
 function clientIp(headers: Headers): string {
