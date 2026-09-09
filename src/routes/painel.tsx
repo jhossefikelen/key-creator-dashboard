@@ -207,7 +207,35 @@ function LicenseDashboard() {
       </header>
 
       <div className="relative z-10 mx-auto max-w-[1500px] space-y-6 px-5 py-7 lg:px-8">
+        <nav className="flex flex-wrap gap-2">
+          {(
+            [
+              ["licencas", "Licenças"],
+              ["clientes", "Clientes"],
+              ["config", "Configurações do site"],
+            ] as const
+          ).map(([value, label]) => (
+            <button
+              key={value}
+              onClick={() => setTab(value)}
+              className={`h-11 rounded-xl border px-5 text-sm font-bold transition ${
+                tab === value
+                  ? "border-[#e10600] bg-[#e10600]/12 text-[#ff2a20]"
+                  : "border-[#2a1416] bg-[#101013] text-[#9aa1a9] hover:border-[#ff2a20]/50 hover:text-[#ff2a20]"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+
+        {tab === "clientes" && <CustomersPanel accessToken={session?.accessToken || ""} />}
+        {tab === "config" && <SettingsPanel accessToken={session?.accessToken || ""} />}
+
+        {tab === "licencas" && (
+        <>
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
           {[
             {
               icon: KeyRound,
