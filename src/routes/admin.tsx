@@ -1,6 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff, KeyRound, Loader2, LockKeyhole } from "lucide-react";
-import { SharkLogo } from "@/components/SharkLogo";
 import { useEffect, useState, type FormEvent } from "react";
 import { MatrixRain } from "@/components/MatrixRain";
 import { useAdminGate } from "@/hooks/useAdminGate";
@@ -68,7 +67,11 @@ function AdminLoginPage() {
         </div>
 
         <div className="p-7 sm:p-9">
-          <SharkLogo size={36} />
+          <img 
+            src="/lunax-assets/9f7782be67c9-chatgpt-image-9-de-set-de-2026-15_37_49.png" 
+            alt="BlackShark Logo" 
+            className="h-16 w-auto rounded-xl object-contain drop-shadow-[0_0_15px_rgba(255,0,0,0.15)]" 
+          />
           <p className="mt-7 font-mono text-xs uppercase tracking-[0.28em] text-[#00ff66]">
             BlackShark IA Command Center
           </p>
