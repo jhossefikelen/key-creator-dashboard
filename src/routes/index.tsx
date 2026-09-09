@@ -5,6 +5,7 @@ import { WhatsappFab } from "@/components/WhatsappFab";
 import { SiteHeader } from "@/components/landing/SiteHeader";
 import { Hero } from "@/components/landing/Hero";
 import { Pricing } from "@/components/landing/Pricing";
+import { TrialDownload } from "@/components/landing/TrialDownload";
 import {
   Faq,
   Features,
@@ -74,6 +75,7 @@ function SalesPage() {
         <PainSolution />
         <Features />
         <HowItWorks />
+        <TrialDownload />
         <Testimonials />
         <Pricing />
         <Faq />

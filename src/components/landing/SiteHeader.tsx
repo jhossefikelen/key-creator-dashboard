@@ -24,6 +24,9 @@ export function SiteHeader() {
         <a className="transition hover:text-primary" href="#como-funciona">
           Como funciona
         </a>
+        <a className="transition hover:text-primary" href="#baixar">
+          Baixar / Teste grátis
+        </a>
         <a className="transition hover:text-primary" href="#depoimentos">
           Depoimentos
         </a>
