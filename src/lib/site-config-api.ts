@@ -3,6 +3,7 @@ import { DEFAULT_SITE_CONFIG, mergeSiteConfig, type SiteConfig } from "@/lib/sit
 const SUPABASE_URL = "https://htzhueodeeciczhgnyxt.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_NWgF4yv6wGQYMKXuMkTgCA_sZKQ7BYu";
 const CACHE_KEY = "blackshark.siteconfig.v1";
+export const SITE_CONFIG_UPDATED_EVENT = "blackshark:site-config-updated";
 
 function headers(accessToken?: string) {
   return {
@@ -28,7 +29,7 @@ export async function fetchSiteConfig(): Promise<SiteConfig> {
   try {
     const response = await fetch(
       `${SUPABASE_URL}/rest/v1/site_config?id=eq.1&select=data`,
-      { headers: headers() },
+      { headers: headers(), cache: "no-store" },
     );
     if (!response.ok) return readCachedSiteConfig();
     const rows = (await response.json()) as Array<{ data: unknown }>;
@@ -56,13 +57,15 @@ export async function saveSiteConfig(config: SiteConfig, accessToken: string) {
         "Não foi possível salvar. Verifique se o SQL de configuração foi executado e se o seu e-mail está na lista de administradores.",
     );
   }
-  if (Array.isArray(body) && body.length === 0) {
+  if (!Array.isArray(body) || body.length === 0) {
     throw new Error("Nada foi salvo: seu usuário não tem permissão de administrador.");
   }
+  const saved = mergeSiteConfig((body[0] as { data?: unknown })?.data);
   if (typeof window !== "undefined") {
-    window.localStorage.setItem(CACHE_KEY, JSON.stringify(config));
+    window.localStorage.setItem(CACHE_KEY, JSON.stringify(saved));
+    window.dispatchEvent(new CustomEvent(SITE_CONFIG_UPDATED_EVENT, { detail: saved }));
   }
-  return config;
+  return saved;
 }
 
 /* ---------------- Clientes cadastrados ---------------- */

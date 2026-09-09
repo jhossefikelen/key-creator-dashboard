@@ -74,8 +74,13 @@ export function SettingsPanel({ accessToken }: { accessToken: string }) {
   async function onSave() {
     setSaving(true);
     try {
-      await saveSiteConfig(config, accessToken);
-      toast.success("Configurações salvas. O site já está atualizado.");
+      const saved = await saveSiteConfig(config, accessToken);
+      const confirmed = await fetchSiteConfig();
+      if (JSON.stringify(saved) !== JSON.stringify(confirmed)) {
+        throw new Error("O banco não confirmou todas as alterações. Tente salvar novamente.");
+      }
+      setConfig(confirmed);
+      toast.success(`Configurações confirmadas. WhatsApp: ${confirmed.whatsapp.number}`);
     } catch (caught) {
       toast.error(caught instanceof Error ? caught.message : "Não foi possível salvar.");
     } finally {
