@@ -161,21 +161,21 @@ function LicenseDashboard() {
 
   if (!ready || (authed && loading && !keys.length)) {
     return (
-      <main className="grid min-h-screen place-items-center bg-[#010502] text-[#00ff66]">
+      <main className="grid min-h-screen place-items-center bg-[#050505] text-[#ff2a20]">
         <Loader2 className="size-8 animate-spin" />
       </main>
     );
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#010502] text-[#eafff0]">
+    <main className="relative min-h-screen overflow-hidden bg-[#050505] text-[#f2f4f6]">
       <MatrixRain opacity={0.1} />
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,255,102,.09),transparent_32%),linear-gradient(to_bottom,rgba(1,5,2,.3),#010502_70%)]" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(225,6,0,.09),transparent_32%),linear-gradient(to_bottom,rgba(1,5,2,.3),#050505_70%)]" />
 
-      <header className="sticky top-0 z-30 border-b border-[#153a20] bg-[#020804]/92 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 border-b border-[#153a20] bg-[#080809]/92 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-4 lg:px-8">
           <div className="flex items-center gap-4">
-            <SharkLogo size={52} className="rounded-xl shadow-lg border border-[#376b4a]/60 bg-[#061009] p-[2px]" />
+            <SharkLogo size={52} className="rounded-xl shadow-lg border border-[#4a2020]/60 bg-[#101013] p-[2px]" />
             <span>
               <b className="block font-mono text-sm uppercase tracking-[0.16em]">
                 BlackShark IA Command Center
@@ -184,20 +184,20 @@ function LicenseDashboard() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="hidden rounded-lg border border-[#1a4326] bg-[#061009] px-3 py-2 text-xs text-[#8aae94] md:block">
+            <span className="hidden rounded-lg border border-[#2a1416] bg-[#101013] px-3 py-2 text-xs text-[#8aae94] md:block">
               {session?.email}
             </span>
             <button
               onClick={() => void reload()}
               disabled={loading}
-              className="grid size-10 place-items-center rounded-xl border border-[#1a4326] bg-[#061009] text-[#9cc8a8] transition hover:border-[#00ff66]/60 hover:text-[#00ff66] disabled:opacity-50"
+              className="grid size-10 place-items-center rounded-xl border border-[#2a1416] bg-[#101013] text-[#9cc8a8] transition hover:border-[#ff2a20]/60 hover:text-[#ff2a20] disabled:opacity-50"
               aria-label="Atualizar licenças"
             >
               <RefreshCw className={`size-4 ${loading ? "animate-spin" : ""}`} />
             </button>
             <button
               onClick={signOut}
-              className="flex h-10 items-center gap-2 rounded-xl border border-[#1a4326] bg-[#061009] px-3 text-sm text-[#9cc8a8] transition hover:border-red-500/50 hover:text-red-300"
+              className="flex h-10 items-center gap-2 rounded-xl border border-[#2a1416] bg-[#101013] px-3 text-sm text-[#9cc8a8] transition hover:border-red-500/50 hover:text-red-300"
             >
               <LogOut className="size-4" />
               <span className="hidden sm:inline">Sair</span>
@@ -236,23 +236,23 @@ function LicenseDashboard() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-sm text-[#76927d]">{label}</span>
-                <Icon className="size-4 text-[#00ff66]" />
+                <Icon className="size-4 text-[#ff2a20]" />
               </div>
-              <strong className="mt-3 block font-mono text-3xl text-[#eafff0]">{value}</strong>
+              <strong className="mt-3 block font-mono text-3xl text-[#f2f4f6]">{value}</strong>
             </article>
           ))}
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[390px_1fr]">
-          <aside className="h-fit rounded-3xl border border-[#1b4b2a] bg-[#040d07]/96 p-6 shadow-[0_25px_80px_rgba(0,0,0,.35)] xl:sticky xl:top-24">
+          <aside className="h-fit rounded-3xl border border-[#1b4b2a] bg-[#0a0a0c]/96 p-6 shadow-[0_25px_80px_rgba(0,0,0,.35)] xl:sticky xl:top-24">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#00ff66]">
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#ff2a20]">
                   Nova licença
                 </p>
                 <h1 className="mt-2 text-2xl font-black">Gerar chave</h1>
               </div>
-              <span className="grid size-11 place-items-center rounded-xl border border-[#00ff66]/25 bg-[#00ff66]/8 text-[#00ff66]">
+              <span className="grid size-11 place-items-center rounded-xl border border-[#ff2a20]/25 bg-[#ff2a20]/8 text-[#ff2a20]">
                 <KeyRound className="size-5" />
               </span>
             </div>
@@ -316,7 +316,7 @@ function LicenseDashboard() {
               <button
                 onClick={() => void onGenerate()}
                 disabled={busy === "create"}
-                className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#00e85d] font-bold text-[#001a08] shadow-[0_0_28px_rgba(0,255,102,.17)] transition hover:bg-[#34ff7f] disabled:cursor-wait disabled:opacity-60"
+                className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#e10600] font-bold text-[#001a08] shadow-[0_0_28px_rgba(225,6,0,.17)] transition hover:bg-[#34ff7f] disabled:cursor-wait disabled:opacity-60"
               >
                 {busy === "create" ? (
                   <Loader2 className="size-5 animate-spin" />
@@ -328,11 +328,11 @@ function LicenseDashboard() {
             </div>
           </aside>
 
-          <section className="min-w-0 rounded-3xl border border-[#173d22] bg-[#040d07]/96">
+          <section className="min-w-0 rounded-3xl border border-[#173d22] bg-[#0a0a0c]/96">
             <div className="border-b border-[#153a20] p-5 lg:p-6">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#00ff66]">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#ff2a20]">
                     Base de clientes
                   </p>
                   <h2 className="mt-2 text-2xl font-black">Licenças BlackShark IA</h2>
@@ -363,7 +363,7 @@ function LicenseDashboard() {
 
             <div className="overflow-x-auto">
               <table className="w-full min-w-[920px] text-left text-sm">
-                <thead className="border-b border-[#14371f] bg-[#020804] font-mono text-[10px] uppercase tracking-[0.13em] text-[#5f7d67]">
+                <thead className="border-b border-[#241315] bg-[#080809] font-mono text-[10px] uppercase tracking-[0.13em] text-[#5f7d67]">
                   <tr>
                     <th className="px-5 py-4">Cliente / chave</th>
                     <th className="px-4 py-4">Plano</th>
@@ -387,7 +387,7 @@ function LicenseDashboard() {
                           </span>
                           <button
                             onClick={() => void copy(license.keyPrefix, "Prefixo copiado.")}
-                            className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#1e4b2b] bg-[#07120a] px-2 py-1 font-mono text-[10px] text-[#8fba9b] transition hover:border-[#00ff66]/50 hover:text-[#00ff66]"
+                            className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-[#1e4b2b] bg-[#07120a] px-2 py-1 font-mono text-[10px] text-[#8fba9b] transition hover:border-[#ff2a20]/50 hover:text-[#ff2a20]"
                             title="Copiar prefixo identificador"
                           >
                             {license.keyPrefix}
@@ -453,7 +453,7 @@ function LicenseDashboard() {
                               disabled={busy === `status-${license.id}`}
                               className={`matrix-action ${
                                 license.status === "revoked"
-                                  ? "text-[#00ff66]"
+                                  ? "text-[#ff2a20]"
                                   : "hover:border-red-500/50 hover:text-red-300"
                               }`}
                               title={
@@ -495,15 +495,15 @@ function LicenseDashboard() {
 
       {generatedKeys.length > 0 && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/80 p-5 backdrop-blur-sm">
-          <section className="w-full max-w-xl rounded-3xl border border-[#00ff66]/40 bg-[#030b05] p-6 shadow-[0_25px_100px_rgba(0,0,0,.75),0_0_50px_rgba(0,255,102,.12)]">
+          <section className="w-full max-w-xl rounded-3xl border border-[#ff2a20]/40 bg-[#030b05] p-6 shadow-[0_25px_100px_rgba(0,0,0,.75),0_0_50px_rgba(225,6,0,.12)]">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#00ff66]">
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#ff2a20]">
                   Criadas com sucesso
                 </p>
                 <h2 className="mt-2 text-2xl font-black">Copie as chaves agora</h2>
               </div>
-              <span className="grid size-10 place-items-center rounded-full bg-[#00ff66]/10 text-[#00ff66]">
+              <span className="grid size-10 place-items-center rounded-full bg-[#ff2a20]/10 text-[#ff2a20]">
                 <Check className="size-5" />
               </span>
             </div>
@@ -537,13 +537,13 @@ function LicenseDashboard() {
                     "Todas as chaves foram copiadas.",
                   )
                 }
-                className="rounded-xl border border-[#00ff66]/35 bg-[#07150b] py-3 font-bold text-[#9dffba] transition hover:border-[#00ff66]"
+                className="rounded-xl border border-[#ff2a20]/35 bg-[#07150b] py-3 font-bold text-[#f2f4f6] transition hover:border-[#ff2a20]"
               >
                 Copiar todas
               </button>
               <button
                 onClick={() => setGeneratedKeys([])}
-                className="rounded-xl bg-[#00e85d] py-3 font-bold text-[#001a08] transition hover:bg-[#34ff7f]"
+                className="rounded-xl bg-[#e10600] py-3 font-bold text-[#001a08] transition hover:bg-[#34ff7f]"
               >
                 Concluir
               </button>
@@ -568,7 +568,7 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 
 function StatusBadge({ status }: { status: "active" | "expired" | "revoked" }) {
   const options = {
-    active: ["Ativa", "border-[#00ff66]/30 bg-[#00ff66]/8 text-[#56ff8e]"],
+    active: ["Ativa", "border-[#ff2a20]/30 bg-[#ff2a20]/8 text-[#56ff8e]"],
     expired: ["Expirada", "border-amber-400/30 bg-amber-400/8 text-amber-300"],
     revoked: ["Revogada", "border-red-500/30 bg-red-500/8 text-red-300"],
   } as const;

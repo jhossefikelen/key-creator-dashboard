@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as EntrarRouteImport } from './routes/entrar'
+import { Route as MinhaContaRouteImport } from './routes/minha-conta'
 import { Route as PainelRouteImport } from './routes/painel'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +25,16 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EntrarRoute = EntrarRouteImport.update({
+  id: '/entrar',
+  path: '/entrar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MinhaContaRoute = MinhaContaRouteImport.update({
+  id: '/minha-conta',
+  path: '/minha-conta',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PainelRoute = PainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -32,30 +44,38 @@ const PainelRoute = PainelRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/entrar': typeof EntrarRoute
+  '/minha-conta': typeof MinhaContaRoute
   '/painel': typeof PainelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/entrar': typeof EntrarRoute
+  '/minha-conta': typeof MinhaContaRoute
   '/painel': typeof PainelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/entrar': typeof EntrarRoute
+  '/minha-conta': typeof MinhaContaRoute
   '/painel': typeof PainelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/painel'
+  fullPaths: '/' | '/admin' | '/entrar' | '/minha-conta' | '/painel'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/painel'
-  id: '__root__' | '/' | '/admin' | '/painel'
+  to: '/' | '/admin' | '/entrar' | '/minha-conta' | '/painel'
+  id: '__root__' | '/' | '/admin' | '/entrar' | '/minha-conta' | '/painel'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  EntrarRoute: typeof EntrarRoute
+  MinhaContaRoute: typeof MinhaContaRoute
   PainelRoute: typeof PainelRoute
 }
 
@@ -75,6 +95,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/entrar': {
+      id: '/entrar'
+      path: '/entrar'
+      fullPath: '/entrar'
+      preLoaderRoute: typeof EntrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/minha-conta': {
+      id: '/minha-conta'
+      path: '/minha-conta'
+      fullPath: '/minha-conta'
+      preLoaderRoute: typeof MinhaContaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/painel': {
       id: '/painel'
       path: '/painel'
@@ -88,6 +122,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  EntrarRoute: EntrarRoute,
+  MinhaContaRoute: MinhaContaRoute,
   PainelRoute: PainelRoute,
 }
 export const routeTree = rootRouteImport
