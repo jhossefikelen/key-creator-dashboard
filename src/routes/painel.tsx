@@ -23,10 +23,10 @@ import type { LicenseRecord } from "@/lib/lunax-api";
 export const Route = createFileRoute("/painel")({
   head: () => ({
     meta: [
-      { title: "LunaX Infinity // Painel administrativo" },
+      { title: "Extensão BlackShark IA // Painel administrativo" },
       {
         name: "description",
-        content: "Crie chaves, controle clientes, planos e dispositivos LunaX.",
+        content: "Crie chaves, controle clientes, planos e dispositivos BlackShark IA.",
       },
       { name: "robots", content: "noindex,nofollow" },
     ],
@@ -175,11 +175,11 @@ function LicenseDashboard() {
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-4 lg:px-8">
           <div className="flex items-center gap-3">
             <span className="grid size-10 place-items-center rounded-xl border border-[#00ff66]/35 bg-[#07150b] font-mono text-xs font-black text-[#00ff66]">
-              LX
+              BS
             </span>
             <span>
               <b className="block font-mono text-sm uppercase tracking-[0.16em]">
-                LunaX Command Center
+                BlackShark IA Command Center
               </b>
               <span className="text-xs text-[#66836d]">Licenças e clientes em produção</span>
             </span>
@@ -336,7 +336,7 @@ function LicenseDashboard() {
                   <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#00ff66]">
                     Base de clientes
                   </p>
-                  <h2 className="mt-2 text-2xl font-black">Licenças LunaX</h2>
+                  <h2 className="mt-2 text-2xl font-black">Licenças BlackShark IA</h2>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <label className="relative min-w-0 sm:w-72">

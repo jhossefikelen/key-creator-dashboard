@@ -7,10 +7,10 @@ import { useAdminGate } from "@/hooks/useAdminGate";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "LunaX Infinity // Acesso administrativo" },
+      { title: "Extensão BlackShark IA // Acesso administrativo" },
       {
         name: "description",
-        content: "Acesso restrito ao painel de licenças LunaX Infinity.",
+        content: "Acesso restrito ao painel de licenças Extensão BlackShark IA.",
       },
       { name: "robots", content: "noindex,nofollow" },
     ],
@@ -71,7 +71,7 @@ function AdminLoginPage() {
             <LockKeyhole className="size-6" />
           </span>
           <p className="mt-7 font-mono text-xs uppercase tracking-[0.28em] text-[#00ff66]">
-            LunaX Command Center
+            BlackShark IA Command Center
           </p>
           <h1 className="mt-3 text-3xl font-black tracking-[-0.03em]">Acesso administrativo</h1>
           <p className="mt-3 text-sm leading-6 text-[#7fa78a]">
@@ -90,7 +90,7 @@ function AdminLoginPage() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 className="h-12 w-full rounded-xl border border-[#1c4c2a] bg-[#020703] px-4 text-sm text-[#eafff0] outline-none transition placeholder:text-[#3e6949] focus:border-[#00ff66] focus:ring-2 focus:ring-[#00ff66]/10"
-                placeholder="admin@lunax.com"
+                placeholder="admin@blackshark.com"
                 required
               />
             </label>

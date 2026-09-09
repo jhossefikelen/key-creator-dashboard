@@ -17,7 +17,7 @@ import { MatrixRain } from "@/components/MatrixRain";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "LunaX Infinity — Edite projetos Lovable com IA" },
+      { title: "Extensão BlackShark IA — Edite projetos Lovable com IA" },
       {
         name: "description",
         content:
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "LunaX Infinity — Seu copiloto para Lovable",
+        content: "Extensão BlackShark IA — Seu copiloto para Lovable",
       },
       {
         property: "og:description",
@@ -40,7 +40,7 @@ const features = [
   {
     icon: Bot,
     title: "IA com roteamento inteligente",
-    text: "A LunaX escolhe automaticamente o modelo ideal para código, arquitetura, visão, correção ou geração de imagens.",
+    text: "A BlackShark IA escolhe automaticamente o modelo ideal para código, arquitetura, visão, correção ou geração de imagens.",
   },
   {
     icon: Github,
@@ -97,11 +97,11 @@ function SalesPage() {
       <header className="relative z-20 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
         <a href="#inicio" className="flex items-center gap-3">
           <span className="grid size-10 place-items-center rounded-xl border border-[#00ff66]/35 bg-[#06140b] text-sm font-black text-[#00ff66] shadow-[0_0_28px_rgba(0,255,102,.16)]">
-            LX
+            BS
           </span>
           <span>
-            <b className="block font-mono text-lg tracking-[0.12em]">LUNAX</b>
-            <span className="text-[10px] uppercase tracking-[0.3em] text-[#78a987]">Infinity</span>
+            <b className="block font-mono text-lg tracking-[0.12em]">BLACKSHARK</b>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#78a987]">IA</span>
           </span>
         </a>
         <nav className="hidden items-center gap-7 text-sm text-[#9ac7a7] md:flex">
@@ -140,7 +140,7 @@ function SalesPage() {
             </span>
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-[#9cc4a8]">
-            Diga o que deseja. A LunaX entende o projeto, altera o código, valida no GitHub e
+            Diga o que deseja. A BlackShark IA entende o projeto, altera o código, valida no GitHub e
             entrega um preview antes da publicação. Tudo organizado em um painel lateral dentro do
             Lovable.
           </p>
@@ -149,7 +149,7 @@ function SalesPage() {
               href="#planos"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#00e85d] px-6 py-3.5 font-bold text-[#001a08] shadow-[0_0_35px_rgba(0,255,102,.24)] transition hover:bg-[#2cff7e]"
             >
-              Quero usar a LunaX
+              Quero usar a BlackShark IA
               <ArrowRight className="size-5" />
             </a>
             <a
@@ -183,7 +183,7 @@ function SalesPage() {
                 <span className="size-2.5 rounded-full bg-[#00e85d]" />
               </div>
               <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-[#5fa371]">
-                LunaX Agent
+                BlackShark Agent
               </span>
             </div>
             <div className="space-y-4 p-5 sm:p-7">
@@ -335,7 +335,7 @@ function SalesPage() {
                   ))}
                 </ul>
                 <a
-                  href="https://wa.me/55119947664626?text=Ol%C3%A1!%20Quero%20conhecer%20o%20plano%20LunaX"
+                  href="https://wa.me/55119947664626?text=Ol%C3%A1!%20Quero%20conhecer%20o%20plano%20BlackShark%20IA"
                   target="_blank"
                   rel="noreferrer"
                   className={`mt-8 flex items-center justify-center gap-2 rounded-xl py-3 font-bold transition ${
@@ -354,7 +354,7 @@ function SalesPage() {
       </section>
 
       <footer className="relative z-10 mx-auto flex max-w-7xl flex-col gap-4 px-5 py-10 text-sm text-[#63836c] sm:flex-row sm:items-center sm:justify-between lg:px-8">
-        <span>© 2026 LunaX Infinity. Todos os direitos reservados.</span>
+        <span>© 2026 Extensão BlackShark IA. Todos os direitos reservados.</span>
         <span className="flex items-center gap-2 font-mono text-xs">
           <Zap className="size-4 text-[#00ff66]" />
           POWERED BY INTELLIGENT CODE
