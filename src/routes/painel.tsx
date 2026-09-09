@@ -19,6 +19,9 @@ import { toast } from "sonner";
 import { MatrixRain } from "@/components/MatrixRain";
 import { useAdminGate } from "@/hooks/useAdminGate";
 import { useLicenseKeys, type CreateLicenseOptions } from "@/hooks/useLicenseKeys";
+import { CustomersPanel } from "@/components/admin/CustomersPanel";
+import { SettingsPanel } from "@/components/admin/SettingsPanel";
+
 import type { LicenseRecord } from "@/lib/lunax-api";
 
 export const Route = createFileRoute("/painel")({
