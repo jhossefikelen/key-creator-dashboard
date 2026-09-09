@@ -1,6 +1,21 @@
 import { useEffect, useRef } from "react";
 
-export function MatrixRain({ opacity = 0.32 }: { opacity?: number }) {
+type MatrixRainProps = {
+  opacity?: number;
+  /** cor principal da chuva */
+  color?: string;
+  /** cor dos clarões */
+  highlight?: string;
+  /** cor do rastro (fundo) */
+  trail?: string;
+};
+
+export function MatrixRain({
+  opacity = 0.32,
+  color = "#e10600",
+  highlight = "#f2f4f6",
+  trail = "rgba(5, 5, 5, 0.08)",
+}: MatrixRainProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -8,7 +23,7 @@ export function MatrixRain({ opacity = 0.32 }: { opacity?: number }) {
     const context = canvas?.getContext("2d");
     if (!canvas || !context) return;
 
-    const characters = "アイウエオカキクケコサシスセソタチツテト0123456789LUNAX";
+    const characters = "アイウエオカキクケコサシスセソタチツテト0123456789BLACKSHARK";
     const fontSize = 16;
     let frame = 0;
     let columns = 0;
@@ -27,14 +42,14 @@ export function MatrixRain({ opacity = 0.32 }: { opacity?: number }) {
 
     const draw = () => {
       frame = window.requestAnimationFrame(draw);
-      context.fillStyle = "rgba(1, 7, 3, 0.075)";
+      context.fillStyle = trail;
       context.fillRect(0, 0, window.innerWidth, window.innerHeight);
       context.font = `${fontSize}px "JetBrains Mono", monospace`;
 
       for (let column = 0; column < columns; column += 1) {
         const character = characters[Math.floor(Math.random() * characters.length)];
         const y = drops[column]! * fontSize;
-        context.fillStyle = Math.random() > 0.96 ? "#d7ffe3" : "#00ff66";
+        context.fillStyle = Math.random() > 0.96 ? highlight : color;
         context.fillText(character!, column * fontSize, y);
         if (y > window.innerHeight && Math.random() > 0.97) {
           drops[column] = Math.floor(Math.random() * -20);
@@ -50,7 +65,7 @@ export function MatrixRain({ opacity = 0.32 }: { opacity?: number }) {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [color, highlight, trail]);
 
   return (
     <canvas
