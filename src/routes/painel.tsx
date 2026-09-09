@@ -519,7 +519,10 @@ function LicenseDashboard() {
             </div>
           </section>
         </section>
+        </>
+        )}
       </div>
+
 
       {generatedKeys.length > 0 && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-black/80 p-5 backdrop-blur-sm">
