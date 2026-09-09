@@ -15,7 +15,8 @@ import {
   Testimonials,
   faqItems,
 } from "@/components/landing/Sections";
-import { PLANS } from "@/lib/plans";
+import { SiteConfigProvider } from "@/hooks/useSiteConfig";
+import { DEFAULT_SITE_CONFIG } from "@/lib/site-config";
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -34,7 +35,7 @@ const productJsonLd = {
   description:
     "Extensão de IA que edita, testa e publica projetos Lovable a partir de comandos em português.",
   brand: { "@type": "Brand", name: "BlackShark IA" },
-  offers: PLANS.map((plan) => ({
+  offers: DEFAULT_SITE_CONFIG.pricing.plans.map((plan) => ({
     "@type": "Offer",
     name: `Plano ${plan.name}`,
     price: plan.price.replace("R$ ", "").replace(".", "").replace(",", "."),
@@ -46,17 +47,12 @@ const productJsonLd = {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BlackShark IA — Seu site alterado por IA em minutos" },
-      {
-        name: "description",
-        content:
-          "Peça em português e a BlackShark IA edita, testa e publica seu projeto Lovable. Planos a partir de R$ 20,00 com liberação imediata.",
-      },
-      { property: "og:title", content: "BlackShark IA — Seu site alterado por IA em minutos" },
-      {
-        property: "og:description",
-        content: "Planos a partir de R$ 20,00. Preview antes de publicar e suporte no WhatsApp.",
-      },
+      { title: DEFAULT_SITE_CONFIG.seo.title },
+      { name: "description", content: DEFAULT_SITE_CONFIG.seo.description },
+      { property: "og:title", content: DEFAULT_SITE_CONFIG.seo.title },
+      { property: "og:description", content: DEFAULT_SITE_CONFIG.seo.description },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(productJsonLd) },
@@ -68,23 +64,25 @@ export const Route = createFileRoute("/")({
 
 function SalesPage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-background text-foreground">
-      <MatrixRain opacity={0.18} />
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,color-mix(in_oklab,var(--primary)_16%,transparent),transparent_38%)]" />
+    <SiteConfigProvider>
+      <main className="min-h-screen overflow-hidden bg-background text-foreground">
+        <MatrixRain opacity={0.18} />
+        <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,color-mix(in_oklab,var(--primary)_16%,transparent),transparent_38%)]" />
 
-      <SiteHeader />
-      <Hero />
-      <PainSolution />
-      <Features />
-      <HowItWorks />
-      <Testimonials />
-      <Pricing />
-      <Faq />
-      <FinalCta />
-      <SiteFooter />
+        <SiteHeader />
+        <Hero />
+        <PainSolution />
+        <Features />
+        <HowItWorks />
+        <Testimonials />
+        <Pricing />
+        <Faq />
+        <FinalCta />
+        <SiteFooter />
 
-      <SocialProofToasts />
-      <WhatsappFab />
-    </main>
+        <SocialProofToasts />
+        <WhatsappFab />
+      </main>
+    </SiteConfigProvider>
   );
 }

@@ -1,24 +1,22 @@
 import { ArrowRight, Check } from "lucide-react";
-import { PLANS } from "@/lib/plans";
-import { whatsappLink } from "@/components/WhatsappFab";
+import { useSiteConfig } from "@/hooks/useSiteConfig";
+import { whatsappHref } from "@/lib/site-config";
 
 export function Pricing() {
+  const config = useSiteConfig();
+  const { pricing, whatsapp, brand } = config;
+
   return (
     <section id="planos" className="relative z-10 border-y border-border bg-card/40 py-24">
       <div className="mx-auto max-w-6xl px-5 text-center lg:px-8">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          Escolha seu acesso
+          {pricing.eyebrow}
         </p>
-        <h2 className="mt-4 text-4xl font-black tracking-[-0.03em] sm:text-5xl">
-          Um preço fixo. Pedidos ilimitados.
-        </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">
-          Sem fidelidade e sem cobrança automática. Você ativa o período que quiser e renova quando
-          precisar.
-        </p>
+        <h2 className="mt-4 text-4xl font-black tracking-[-0.03em] sm:text-5xl">{pricing.title}</h2>
+        <p className="mx-auto mt-5 max-w-2xl text-muted-foreground">{pricing.subtitle}</p>
 
         <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {PLANS.map((plan) => (
+          {pricing.plans.map((plan) => (
             <article
               key={plan.id}
               className={`relative rounded-3xl border p-7 text-left ${
@@ -49,8 +47,9 @@ export function Pricing() {
                 ))}
               </ul>
               <a
-                href={whatsappLink(
-                  `Olá! Quero ativar o plano ${plan.name} (${plan.price}) da BlackShark IA.`,
+                href={whatsappHref(
+                  whatsapp.number,
+                  `Olá! Quero ativar o plano ${plan.name} (${plan.price}) da ${brand.name} ${brand.suffix}.`,
                 )}
                 target="_blank"
                 rel="noreferrer"
@@ -67,9 +66,7 @@ export function Pricing() {
           ))}
         </div>
 
-        <p className="mt-8 text-xs text-muted-foreground">
-          Pagamento por WhatsApp com liberação imediata da sua chave de acesso.
-        </p>
+        <p className="mt-8 text-xs text-muted-foreground">{pricing.note}</p>
       </div>
     </section>
   );
