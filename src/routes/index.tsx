@@ -96,8 +96,8 @@ function SalesPage() {
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,255,102,.13),transparent_38%),linear-gradient(to_bottom,rgba(1,8,4,.2),#020604_86%)]" />
 
       <header className="relative z-20 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
-        <a href="#inicio" className="flex items-center gap-3">
-          <SharkLogo size={40} className="text-[#00ff66]" />
+        <a href="#inicio" className="flex items-center gap-4">
+          <SharkLogo size={64} className="rounded-2xl border border-[#376b4a]/60 bg-[#061009]/80 p-[2px] shadow-[0_0_15px_rgba(0,255,102,.1)]" />
           <span>
             <b className="block font-mono text-lg tracking-[0.12em]">BLACKSHARK</b>
             <span className="text-[10px] uppercase tracking-[0.3em] text-[#78a987]">IA</span>

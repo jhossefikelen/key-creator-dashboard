@@ -174,8 +174,8 @@ function LicenseDashboard() {
 
       <header className="sticky top-0 z-30 border-b border-[#153a20] bg-[#020804]/92 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-4 lg:px-8">
-          <div className="flex items-center gap-3">
-            <SharkLogo size={36} />
+          <div className="flex items-center gap-4">
+            <SharkLogo size={52} className="rounded-xl shadow-lg border border-[#376b4a]/60 bg-[#061009] p-[2px]" />
             <span>
               <b className="block font-mono text-sm uppercase tracking-[0.16em]">
                 BlackShark IA Command Center
