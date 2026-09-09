@@ -13,6 +13,7 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+import { SharkLogo } from "@/components/SharkLogo";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { MatrixRain } from "@/components/MatrixRain";
@@ -174,9 +175,7 @@ function LicenseDashboard() {
       <header className="sticky top-0 z-30 border-b border-[#153a20] bg-[#020804]/92 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-4 lg:px-8">
           <div className="flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-xl border border-[#00ff66]/35 bg-[#07150b] font-mono text-xs font-black text-[#00ff66]">
-              BS
-            </span>
+            <SharkLogo size={36} />
             <span>
               <b className="block font-mono text-sm uppercase tracking-[0.16em]">
                 BlackShark IA Command Center

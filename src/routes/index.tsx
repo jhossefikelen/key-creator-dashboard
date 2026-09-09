@@ -12,6 +12,7 @@ import {
   Workflow,
   Zap,
 } from "lucide-react";
+import { SharkLogo } from "@/components/SharkLogo";
 import { MatrixRain } from "@/components/MatrixRain";
 
 export const Route = createFileRoute("/")({
@@ -96,9 +97,7 @@ function SalesPage() {
 
       <header className="relative z-20 mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
         <a href="#inicio" className="flex items-center gap-3">
-          <span className="grid size-10 place-items-center rounded-xl border border-[#00ff66]/35 bg-[#06140b] text-sm font-black text-[#00ff66] shadow-[0_0_28px_rgba(0,255,102,.16)]">
-            BS
-          </span>
+          <SharkLogo size={40} className="text-[#00ff66]" />
           <span>
             <b className="block font-mono text-lg tracking-[0.12em]">BLACKSHARK</b>
             <span className="text-[10px] uppercase tracking-[0.3em] text-[#78a987]">IA</span>

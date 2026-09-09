@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff, KeyRound, Loader2, LockKeyhole } from "lucide-react";
+import { SharkLogo } from "@/components/SharkLogo";
 import { useEffect, useState, type FormEvent } from "react";
 import { MatrixRain } from "@/components/MatrixRain";
 import { useAdminGate } from "@/hooks/useAdminGate";
@@ -67,9 +68,7 @@ function AdminLoginPage() {
         </div>
 
         <div className="p-7 sm:p-9">
-          <span className="grid size-14 place-items-center rounded-2xl border border-[#00ff66]/30 bg-[#00ff66]/8 text-[#00ff66] shadow-[0_0_30px_rgba(0,255,102,.12)]">
-            <LockKeyhole className="size-6" />
-          </span>
+          <SharkLogo size={36} />
           <p className="mt-7 font-mono text-xs uppercase tracking-[0.28em] text-[#00ff66]">
             BlackShark IA Command Center
           </p>
