@@ -1,37 +1,8 @@
 import { useEffect, useState } from "react";
 import { ShieldCheck, X } from "lucide-react";
+import { useSiteConfig } from "@/hooks/useSiteConfig";
 
 // Conteúdo 100% fictício, usado apenas como prova social na landing.
-const NAMES = [
-  "Rafael",
-  "Juliana",
-  "Marcos",
-  "Camila",
-  "Diego",
-  "Patrícia",
-  "Lucas",
-  "Fernanda",
-  "Bruno",
-  "Aline",
-  "Thiago",
-  "Renata",
-];
-
-const CITIES = [
-  "Campinas, SP",
-  "Belo Horizonte, MG",
-  "Curitiba, PR",
-  "Recife, PE",
-  "Porto Alegre, RS",
-  "Goiânia, GO",
-  "Fortaleza, CE",
-  "São Paulo, SP",
-  "Florianópolis, SC",
-  "Salvador, BA",
-];
-
-const PLANS = ["plano Diário", "plano Quinzenal", "plano Mensal"];
-
 function pick<T>(list: T[], avoid?: T): T {
   let value = list[Math.floor(Math.random() * list.length)]!;
   if (avoid !== undefined && list.length > 1) {
@@ -47,24 +18,30 @@ function pick<T>(list: T[], avoid?: T): T {
 type Notice = { id: number; name: string; city: string; plan: string; minutes: number };
 
 export function SocialProofToasts() {
+  const { socialProof, pricing } = useSiteConfig();
   const [notice, setNotice] = useState<Notice | null>(null);
   const [dismissed, setDismissed] = useState(false);
 
+  const names = socialProof.names;
+  const cities = socialProof.cities;
+  const planNames = pricing.plans.map((plan) => `plano ${plan.name}`);
+  const enabled = socialProof.enabled && names.length > 0 && cities.length > 0;
+
   useEffect(() => {
-    if (dismissed) return;
+    if (dismissed || !enabled) return;
     let timeout: ReturnType<typeof setTimeout>;
     let hide: ReturnType<typeof setTimeout>;
     let lastName: string | undefined;
 
     const schedule = (delay: number) => {
       timeout = setTimeout(() => {
-        const name = pick(NAMES, lastName);
+        const name = pick(names, lastName);
         lastName = name;
         setNotice({
           id: Date.now(),
           name,
-          city: pick(CITIES),
-          plan: pick(PLANS),
+          city: pick(cities),
+          plan: planNames.length ? pick(planNames) : "plano",
           minutes: 1 + Math.floor(Math.random() * 14),
         });
         hide = setTimeout(() => setNotice(null), 7000);
@@ -77,16 +54,17 @@ export function SocialProofToasts() {
       clearTimeout(timeout);
       clearTimeout(hide);
     };
-  }, [dismissed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dismissed, enabled, names.join("|"), cities.join("|"), planNames.join("|")]);
 
-  if (!notice || dismissed) return null;
+  if (!notice || dismissed || !enabled) return null;
 
   return (
     <div
       key={notice.id}
       className="fixed bottom-5 left-4 z-50 max-w-[22rem] animate-in fade-in slide-in-from-bottom-4"
     >
-      <div className="flex items-start gap-3 rounded-2xl border border-border bg-card/95 p-4 pr-10 shadow-[0_18px_50px_rgba(0,0,0,.6)] backdrop-blur">
+      <div className="relative flex items-start gap-3 rounded-2xl border border-border bg-card/95 p-4 pr-10 shadow-[0_18px_50px_rgba(0,0,0,.6)] backdrop-blur">
         <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl border border-primary/40 bg-primary/10 text-primary">
           <ShieldCheck className="size-4" />
         </span>

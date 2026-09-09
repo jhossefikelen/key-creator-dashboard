@@ -1,8 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { UserRound } from "lucide-react";
 import { SharkLogo } from "@/components/SharkLogo";
+import { BrandWordmark } from "@/components/Brand";
+import { useSiteConfig } from "@/hooks/useSiteConfig";
 
 export function SiteHeader() {
+  const { brand } = useSiteConfig();
+
   return (
     <header className="relative z-20 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 lg:px-8">
       <a href="#inicio" className="flex items-center gap-3">
@@ -10,10 +14,7 @@ export function SiteHeader() {
           size={56}
           className="rounded-2xl border border-border/70 bg-card/70 p-[2px] shadow-[0_0_18px_color-mix(in_oklab,var(--primary)_18%,transparent)]"
         />
-        <span>
-          <b className="block font-mono text-lg tracking-[0.12em] text-silver">BLACKSHARK</b>
-          <span className="text-[10px] uppercase tracking-[0.32em] text-primary">IA</span>
-        </span>
+        <BrandWordmark name={brand.name} suffix={brand.suffix} className="text-xl" />
       </a>
 
       <nav className="hidden items-center gap-7 text-sm text-muted-foreground lg:flex">
@@ -46,7 +47,7 @@ export function SiteHeader() {
           href="#planos"
           className="hidden rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground shadow-[0_0_28px_color-mix(in_oklab,var(--primary)_35%,transparent)] transition hover:opacity-90 sm:inline-flex"
         >
-          Comprar acesso
+          Quero meu acesso
         </a>
       </div>
     </header>

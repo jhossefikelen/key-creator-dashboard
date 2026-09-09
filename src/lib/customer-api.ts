@@ -1,9 +1,12 @@
+import { upsertCustomerRecord } from "@/lib/site-config-api";
+
 const SUPABASE_URL = "https://htzhueodeeciczhgnyxt.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_NWgF4yv6wGQYMKXuMkTgCA_sZKQ7BYu";
 const SESSION_KEY = "blackshark.customer.session.v1";
 const DEMO_KEY = "blackshark.customer.demo.v1";
 
 export type CustomerSession = {
+  userId: string;
   accessToken: string;
   refreshToken: string;
   expiresAt: number;
@@ -60,6 +63,7 @@ export function clearCustomerSession() {
 function sessionFromAuth(data: any, fallback: Partial<CustomerSession>): CustomerSession {
   const meta = data.user?.user_metadata || {};
   return {
+    userId: data.user?.id || fallback.userId || "",
     accessToken: data.access_token,
     refreshToken: data.refresh_token,
     expiresAt: Date.now() + Number(data.expires_in || 3600) * 1000,
@@ -67,6 +71,17 @@ function sessionFromAuth(data: any, fallback: Partial<CustomerSession>): Custome
     name: meta.name || fallback.name || "",
     whatsapp: meta.whatsapp || fallback.whatsapp || "",
   };
+}
+
+async function registerCustomer(session: CustomerSession) {
+  if (!session.userId || !session.email) return;
+  await upsertCustomerRecord({
+    accessToken: session.accessToken,
+    userId: session.userId,
+    name: session.name,
+    email: session.email,
+    whatsapp: session.whatsapp,
+  });
 }
 
 export async function signUpCustomer(input: {
@@ -94,6 +109,7 @@ export async function signUpCustomer(input: {
   }
   const session = sessionFromAuth(data, input);
   saveCustomerSession(session);
+  void registerCustomer(session);
   return session;
 }
 
@@ -109,6 +125,7 @@ export async function signInCustomer(email: string, password: string) {
   }
   const session = sessionFromAuth(data, { email });
   saveCustomerSession(session);
+  void registerCustomer(session);
   return session;
 }
 

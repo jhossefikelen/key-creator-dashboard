@@ -1,15 +1,18 @@
 import { MessageCircle } from "lucide-react";
+import { useSiteConfig } from "@/hooks/useSiteConfig";
+import { whatsappHref } from "@/lib/site-config";
 
 export const WHATSAPP_NUMBER = "55119947664626";
 
-export function whatsappLink(message: string) {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+export function whatsappLink(message: string, number: string = WHATSAPP_NUMBER) {
+  return whatsappHref(number, message);
 }
 
 export function WhatsappFab() {
+  const config = useSiteConfig();
   return (
     <a
-      href={whatsappLink("Olá! Quero falar sobre a Extensão BlackShark IA.")}
+      href={whatsappHref(config.whatsapp.number, config.whatsapp.message)}
       target="_blank"
       rel="noreferrer"
       aria-label="Falar no WhatsApp"
