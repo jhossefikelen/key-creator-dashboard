@@ -65,6 +65,8 @@ function LicenseDashboard() {
   const navigate = useNavigate();
   const { authed, ready, session, logout } = useAdminGate();
   const { keys, loading, reload, generate, setStatus, resetDevices } = useLicenseKeys(authed);
+  const [tab, setTab] = useState<"licencas" | "clientes" | "config">("licencas");
+
   const [plan, setPlan] = useState<CreateLicenseOptions["plan"]>("monthly");
   const [quantity, setQuantity] = useState(1);
   const [maxDevices, setMaxDevices] = useState(1);
