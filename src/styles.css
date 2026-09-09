@@ -60,6 +60,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-warning: var(--warning);
+  --color-silver: var(--silver);
   --font-mono: var(--font-mono-stack);
   --font-sans: var(--font-mono-stack);
 }
