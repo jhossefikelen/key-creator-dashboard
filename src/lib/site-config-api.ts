@@ -28,7 +28,7 @@ export function readCachedSiteConfig(): SiteConfig {
 export async function fetchSiteConfig(): Promise<SiteConfig> {
   try {
     const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/site_config?id=eq.1&select=data&ts=${Date.now()}`,
+      `${SUPABASE_URL}/rest/v1/site_config?id=eq.1&select=data`,
       { headers: headers(), cache: "no-store" },
     );
     if (!response.ok) return readCachedSiteConfig();
