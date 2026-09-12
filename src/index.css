@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Creepster&family=Cinzel:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Creepster&family=Cinzel:wght@400;600;700&family=Bebas+Neue&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -45,6 +45,24 @@
   font-family: "Cinzel", serif;
   letter-spacing: 0.05em;
   text-shadow: 0 0 8px rgba(120, 0, 0, 0.6);
+}
+
+.brand-animated {
+  font-family: "Bebas Neue", sans-serif;
+  background: linear-gradient(90deg, #ff2a20 0%, #ff8c00 50%, #ff2a20 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: brandShimmer 3s linear infinite;
+  letter-spacing: 0.08em;
+  filter: drop-shadow(0 0 12px rgba(255, 42, 32, 0.4));
+}
+
+@keyframes brandShimmer {
+  to {
+    background-position: 200% center;
+  }
 }
 
 /* Custom scrollbar dark */

@@ -9,7 +9,6 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -78,16 +77,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LunaX Infinity — IA para projetos Lovable" },
+      { title: "Prime Videos - Assista Doramas Online" },
       {
         name: "description",
-        content: "Edite projetos Lovable com IA, GitHub, preview visual e publicação segura.",
+        content: "Sua plataforma premium de doramas e séries asiáticas. Streaming em alta qualidade.",
       },
-      { name: "author", content: "LunaX Infinity" },
-      { property: "og:title", content: "LunaX Infinity" },
+      { name: "author", content: "Prime Videos" },
+      { property: "og:title", content: "Prime Videos" },
       {
         property: "og:description",
-        content: "Peça, visualize e publique alterações reais no Lovable.",
+        content: "Assista aos melhores doramas online com legendas em português.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -96,7 +95,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "/src/styles.css",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
