@@ -77,16 +77,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Prime Videos - Assista Doramas Online" },
+      { title: "BlackShark IA" },
       {
         name: "description",
-        content: "Sua plataforma premium de doramas e séries asiáticas. Streaming em alta qualidade.",
+        content: "Extensão de IA que edita, testa e publica projetos Lovable a partir de comandos em português.",
       },
-      { name: "author", content: "Prime Videos" },
-      { property: "og:title", content: "Prime Videos" },
+      { name: "author", content: "BlackShark IA" },
+      { property: "og:title", content: "BlackShark IA" },
       {
         property: "og:description",
-        content: "Assista aos melhores doramas online com legendas em português.",
+        content: "Automatize seu fluxo de desenvolvimento com inteligência artificial avançada.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

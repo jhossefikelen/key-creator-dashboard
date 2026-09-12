@@ -70,6 +70,9 @@ function SalesPage() {
         <MatrixRain opacity={0.18} />
         <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,color-mix(in_oklab,var(--primary)_16%,transparent),transparent_38%)]" />
 
+        <div className="relative z-20 flex justify-center pt-8">
+          <h1 className="brand-animated text-5xl sm:text-6xl md:text-7xl">BlackShark IA</h1>
+        </div>
         <SiteHeader />
         <Hero />
         <PainSolution />
